@@ -42,6 +42,7 @@ const LANGS: readonly { lang: ShapeLang; label: string }[] = [
   { lang: 'it', label: 'Italian' },
   { lang: 'uk', label: 'Ukrainian' },
   { lang: 'vi', label: 'Vietnamese' },
+  { lang: 'zh', label: 'Chinese' },
 ];
 
 /** Metres to centimetres, to the millimetre under 10 cm and to the centimetre above. */

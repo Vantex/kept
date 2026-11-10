@@ -1,0 +1,147 @@
+---
+title: 自托管家庭物品清单
+description: "开源、自托管的家庭物品清单，适用于你的 homelab：物品在哪里、是什么、何时到期。3D 地图、二维码标签、保修、离线手机应用。"
+template: splash
+hero:
+  title: 自托管的家庭物品清单
+  tagline: 物品在哪里。是什么。何时到期。
+  actions:
+    - text: 安装
+      link: /zh/install/
+      variant: primary
+    - text: 试用 Kept
+      link: /zh/try/kept/
+      variant: secondary
+    - text: 试用地图
+      link: /zh/try/map/
+      variant: secondary
+    - text: GitHub
+      link: https://github.com/keptinventory/kept
+      variant: minimal
+      icon: github
+---
+
+import Section from '../../../components/landing/Section.astro';
+import Cards from '../../../components/landing/Cards.astro';
+import Opened from '../../../components/landing/Opened.astro';
+import Integrations from '../../../components/landing/Integrations.astro';
+import HomeAssistantButton from '../../../components/HomeAssistantButton.astro';
+import Gallery from '../../../components/landing/Gallery.astro';
+import LoopClip from '../../../components/landing/LoopClip.astro';
+import clipDarkMp4 from '../../../assets/clips/map-add-tv-short-dark.mp4?url';
+import clipDarkPoster from '../../../assets/clips/map-add-tv-short-dark-poster.webp?url';
+import clipDarkWebm from '../../../assets/clips/map-add-tv-short-dark.webm?url';
+import clipMp4 from '../../../assets/clips/map-add-tv-short.mp4?url';
+import clipPoster from '../../../assets/clips/map-add-tv-short-poster.webp?url';
+import clipWebm from '../../../assets/clips/map-add-tv-short.webm?url';
+
+<Section title="把电视放到地图上" id="map-clip" split>
+  <Fragment slot="lede">选中电视。它的形状来自类型。</Fragment>
+  <LoopClip
+    light={{ webm: clipWebm, mp4: clipMp4, poster: clipPoster }}
+    dark={{ webm: clipDarkWebm, mp4: clipDarkMp4, poster: clipDarkPoster }}
+    width={960}
+    height={514}
+    label="在试用 Kept 的示例家庭中把电视放到地图上：客厅、整理、从列表选中 Samsung 电视、卡片上写着形状：电视（来自类型），然后完成。"
+    pause="暂停片段"
+    play="播放片段"
+  />
+</Section>
+
+<Section eyebrow="Kept，一览无余" title="一份清单，在桌面和手机上" id="opened" split>
+  <Fragment slot="points">
+    <li><span><strong>首页：</strong>需要你处理的事，一目了然。</span></li>
+    <li><span><strong>位置：</strong>房间、架子、箱子。每处都有地图。</span></li>
+    <li><span><strong>手机：</strong>录入、扫描、搜索。也可离线使用。</span></li>
+  </Fragment>
+  <Opened
+    desktopAlt="桌面上的 Kept 首页：开始使用、从逾期到久未查看的需要你处理磁贴、带地图预览的位置、快捷方式和洞察"
+    phoneAlt="手机上的 Kept 首页：开始使用、需要你处理磁贴和快捷方式，上方是带录入按钮的标签栏"
+  />
+</Section>
+
+<Section eyebrow="功能" title="家庭物品清单功能" id="features">
+  <Cards
+    compact
+    heading="h3"
+    items={[
+      { icon: 'map', title: '3D 地图', body: '楼层、房间、家具。需要你处理的图钉。', href: '/zh/users/location-map/' },
+      { icon: 'places', title: '房间与箱子', body: '位置中的位置。移动箱子，里面的东西也跟着走。', href: '/zh/users/everyday-use/#locations-rooms-and-boxes' },
+      { icon: 'qrcode', title: '二维码标签', body: '每样东西一个短 ID。扫一下箱子，就知道里面有什么。', href: '/zh/users/everyday-use/#short-ids-and-labels' },
+      { icon: 'schedule', title: '保修与保养', body: '按日期或读数。按到期顺序排列。', href: '/zh/users/everyday-use/#reminders-and-notifications' },
+      { icon: 'phone', title: '手机应用，离线可用', body: '无信号也能录入、扫描、搜索。稍后同步。', href: '/zh/users/phone-app/' },
+      { icon: 'insurance', title: '保险报告', body: '照片、序列号、收据。一份 PDF 和理赔包。', href: '/zh/users/everyday-use/#reports-the-inventory-insurance-and-claims' },
+      { icon: 'lending', title: '借出', body: '借给谁、何时归还。借方无需账号。', href: '/zh/users/lending/' },
+      { icon: 'moving', title: '搬家', body: '编号箱子、货车中追踪、扫码开箱。', href: '/zh/users/moving/' },
+      { icon: 'tool', title: '套装与交接', body: '整箱外借。每样东西各自归位。', href: '/zh/users/kits/' },
+    ]}
+  />
+  <details class="kd-more">
+    <summary>还有五项</summary>
+    <Cards
+      compact
+      heading="h3"
+      items={[
+        { icon: 'vehicle', title: '车辆与机器', body: '读数、保养、油耗、费用。', href: '/zh/users/everyday-use/#vehicles-and-machines' },
+        { icon: 'stock', title: '耗材与库存', body: '每样东西设最低量。不足时提醒。', href: '/zh/users/everyday-use/#vehicles-and-machines' },
+        { icon: 'condition', title: '状况报告', body: '入住、退房、逐间检查。带照片。', href: '/zh/users/everyday-use/#condition-reports-renting' },
+        { icon: 'insights', title: '洞察', body: '按年的支出、按位置的价值。绝不估算。', href: '/zh/users/everyday-use/#insights' },
+        { icon: 'language', title: '你的语言', body: 'العربية, Deutsch, English, Español, Français, Italiano, Українська, Tiếng Việt, 简体中文.', href: '/zh/users/first-run/#6-language-and-theme' },
+      ]}
+    />
+  </details>
+  <p><a href="/users/features/">全部功能 →</a></p>
+</Section>
+
+<Section eyebrow="集成" title="哪些数据进入 Kept" id="integrations">
+  <Integrations />
+  <p class="kd-ha-row"><HomeAssistantButton /></p>
+</Section>
+
+<Section eyebrow="一瞥" title="界面一览" id="screens">
+  <Gallery
+    label="Kept 的界面，来自其演示家庭"
+    items={[
+      { name: 'claude-mcp', title: 'Claude，经由 MCP', caption: '让 Claude 添加一件物品。它会落到正确的房间，并带上品牌、型号和序列号。', alt: 'Claude Code："把我的电视加到客厅：Samsung QE55Q80C，序列号 0B7H3CJT500123"，以及回复说电视已在 Kept 的首页 › 客厅下' },
+      { name: 'place', title: '一个房间', caption: '厨房：里面有什么、哪些已结束、相关单据。', alt: 'Kept 中的厨房：AA 电池、灭火器和旧水壶标记为已结束' },
+      { name: 'search-phone', title: '搜索', caption: '名字的一部分。每个匹配在哪里，直到箱子。', alt: '在手机上搜索 cable：线材箱和 HDMI 线，各自带有类型、路径和标签' },
+      { name: 'capture-phone', title: '录入', caption: '每样东西一张照片，存到你选的位置。稍后再命名。', alt: '手机录入界面，摄像头对准车库架子上贴了标签的箱子' },
+      { name: 'inbox', title: '收件箱', caption: '需要决定的：草稿、没有币种的收据、异常读数。', alt: 'Kept 的收件箱：汽车读数低于上次，附带处理方式' },
+      { name: 'labels', title: '标签', caption: '没有印刷标签的物品。你的标签纸，打印前可预览。', alt: '打印标签：首页中六件没有印刷标签的物品，在一张 24 格 A4 纸上，每个标签是带名称、位置和短 ID 的二维码' },
+      { name: 'expiring', title: '即将到期', caption: '保修、保险、租约、灭火器。按到期顺序排列。', alt: '即将到期列表：家庭保险快到期，然后是保修、灭火器和租约' },
+      { name: 'vehicles', title: '车辆', caption: '上次读数、下次保养、证件日期、油耗。', alt: '车辆：轿车、发电机和另一辆车，带里程读数和待办事项' },
+      { name: 'lending', title: '借出', caption: '你借出了什么、借给谁。你借了什么。什么逾期了。', alt: '借出：一把电钻已借出两天逾期，以及一把借来的梯子' },
+      { name: 'assistant', title: '助手', caption: '问某样东西在哪里。答案会引用找到的内容；修改等你确认。', alt: '助手回答 HDMI 线在哪里，引用线材及其箱子，并有待确认的移动' },
+      { name: 'connections', title: '连接', caption: 'AI 应用和脚本的令牌，各自限于你选择的位置。Webhook。', alt: '连接设置：两个个人令牌、一个已连接应用和 webhook' },
+      { name: 'track', title: '跟踪内容', caption: '按位置：基础、家庭或完整。然后每个模块单独开关。', alt: "某位置的跟踪内容设置：选择了家庭预设，并打开了其模块" },
+    ]}
+  />
+</Section>
+
+<Section eyebrow="由你运行" title="开源，在你的 homelab，数据归你" id="trust">
+  <Cards
+    compact
+    heading="h3"
+    items={[
+      { icon: 'license', title: '开源', body: 'AGPL-3.0。代码和发布在 GitHub。', href: 'https://github.com/keptinventory/kept' },
+      { icon: 'server', title: '自托管', body: '一个容器，Postgres。已在 1 GB、1 核上测试。', href: '/zh/install/hardware/' },
+      { icon: 'private', title: '无遥测', body: 'AI 可选。用你自己的提供商，或不用。', href: '/zh/admin/security-model/#what-leaves-the-server' },
+      { icon: 'signature', title: '签名发布', body: 'cosign 签名和 SBOM。', href: '/zh/admin/verify-release/' },
+      { icon: 'backup', title: '每夜备份', body: '加密 restic。磁盘、S3 或 SFTP。', href: '/zh/admin/backups/' },
+      { icon: 'book', title: '无需 Kept 也能读', body: '每次备份里都有网页和电子表格。', href: '/zh/admin/read-with-restic/' },
+    ]}
+  />
+</Section>
+
+<Section eyebrow="找到方向" title="从哪里开始">
+  <Cards
+    compact
+    columns={4}
+    items={[
+      { icon: 'people', title: '使用 Kept', body: '安装、首次登录、日常使用。', href: '/zh/users/first-run/' },
+      { icon: 'server', title: '运行 Kept', body: '配置、升级、恢复套件。', href: '/zh/reference/configuration/' },
+      { icon: 'code', title: '基于 Kept 构建', body: '架构、API、MCP、同步。', href: '/zh/developers/architecture/' },
+      { icon: 'tool', title: '维护 Kept', body: '发布、签名、分类、决策。', href: '/zh/maintainers/releasing/' },
+    ]}
+  />
+</Section>

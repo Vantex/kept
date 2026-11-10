@@ -15,6 +15,7 @@ export const groupNames: Record<string, Record<OtherLang, string>> = {
     it: 'Portare dentro gli oggetti',
     uk: 'Додати речі',
     vi: 'Đưa đồ vật vào',
+    zh: '导入物品',
   },
   'get-told': {
     de: 'Informiert werden',
@@ -23,6 +24,7 @@ export const groupNames: Record<string, Record<OtherLang, string>> = {
     it: 'Ricevere avvisi',
     uk: 'Сповіщення',
     vi: 'Nhận thông báo',
+    zh: '接收提醒',
   },
   'sign-in': {
     de: 'Anmeldung',
@@ -31,6 +33,7 @@ export const groupNames: Record<string, Record<OtherLang, string>> = {
     it: 'Accesso',
     uk: 'Вхід',
     vi: 'Đăng nhập',
+    zh: '登录',
   },
   ai: {
     de: 'KI und Automatisierung',
@@ -39,6 +42,7 @@ export const groupNames: Record<string, Record<OtherLang, string>> = {
     it: 'IA e automazione',
     uk: 'ШІ й автоматизація',
     vi: 'AI và tự động hóa',
+    zh: 'AI 与自动化',
   },
   'share-print': {
     de: 'Teilen und Drucken',
@@ -47,6 +51,7 @@ export const groupNames: Record<string, Record<OtherLang, string>> = {
     it: 'Condividere e stampare',
     uk: 'Спільний доступ і друк',
     vi: 'Chia sẻ và in',
+    zh: '共享与打印',
   },
 };
 
@@ -82,6 +87,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Nhập từ bảng tính (CSV)',
       'Mỗi dòng một đồ vật. Ghép các cột, kiểm tra, rồi nhập.',
     ],
+    zh: [
+      'CSV',
+      '从表格导入（CSV）',
+      '每行一件物品。映射各列，检查，然后导入。',
+    ],
   },
   homebox: {
     de: [
@@ -113,6 +123,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Homebox',
       'Nhập từ Homebox',
       'Tệp xuất ZIP của nó, kèm cả các tệp. Nhãn Homebox cũ vẫn quét được.',
+    ],
+    zh: [
+      'Homebox',
+      '从 Homebox 导入',
+      '它的导出 ZIP，含全部文件。旧的 Homebox 标签仍可扫描。',
     ],
   },
   lubelogger: {
@@ -146,6 +161,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Nhập từ LubeLogger',
       'Lịch sử nhiên liệu, bảo dưỡng và đồng hồ công tơ mét của một phương tiện. Mỗi lần một tệp CSV.',
     ],
+    zh: [
+      'LubeLogger',
+      '从 LubeLogger 导入',
+      '一辆车的油耗、保养和里程历史。每次一个 CSV 文件。',
+    ],
   },
   'kept-export': {
     de: [
@@ -177,6 +197,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Một Kept khác',
       'Nhập từ một Kept khác',
       'Một địa điểm được xuất từ một Kept và nhập vào Kept khác.',
+    ],
+    zh: [
+      '另一个 Kept',
+      '从另一个 Kept 导入',
+      '从一个 Kept 导出的地点，导入到另一个 Kept。',
     ],
   },
   barcodes: {
@@ -210,6 +235,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Tra cứu theo mã vạch sản phẩm',
       'Tên lấy từ Open Food Facts, Open Products Facts hoặc Open Beauty Facts. Tắt cho đến khi quản trị viên bật.',
     ],
+    zh: [
+      '条码',
+      '商品条码查询',
+      '名称来自 Open Food Facts、Open Products Facts 或 Open Beauty Facts。默认关闭，直到管理员开启。',
+    ],
   },
   camera: {
     de: [
@@ -241,6 +271,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Máy ảnh',
       'Chụp bằng máy ảnh',
       'Mỗi đồ vật một ảnh, thêm thẳng vào phòng hoặc hộp. Đặt tên sau.',
+    ],
+    zh: [
+      '相机',
+      '相机拍摄',
+      '每件物品一张照片，直接存入房间或箱子。名称以后再取。',
     ],
   },
   'email-in': {
@@ -274,6 +309,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Email đến (IMAP)',
       'Một thư mục hộp thư bạn đã có. Biên lai gửi đến sẽ thành bản nháp.',
     ],
+    zh: [
+      '邮件收件',
+      '邮件收件（IMAP）',
+      '你已有的邮箱文件夹。到达的收据会变成草稿。',
+    ],
   },
   paperless: {
     de: [
@@ -305,6 +345,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Paperless-ngx',
       'Tài liệu Paperless-ngx',
       'Liên kết một đồ vật với biên lai và sách hướng dẫn của nó trong Paperless. Sao chép một tài liệu vào khi bạn muốn giữ lại.',
+    ],
+    zh: [
+      'Paperless-ngx',
+      'Paperless-ngx 文档',
+      '把物品与它在 Paperless 里的收据和说明书关联起来。想保留时，复制一份进来。',
     ],
   },
   reading: {
@@ -338,6 +383,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Biên lai và nhãn do AI đọc',
       'Khi bật AI: lần mua, thương hiệu, mẫu và số sê-ri. Bạn là người chấp nhận.',
     ],
+    zh: [
+      '收据识别',
+      'AI 识别收据与标签',
+      '开启 AI 后：购买信息、品牌、型号和序列号。由你确认采纳。',
+    ],
   },
   email: {
     de: [
@@ -369,6 +419,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Email',
       'Thông báo qua email (SMTP)',
       'Lời nhắc và bản tin hàng ngày. Qua máy chủ SMTP của chính bạn.',
+    ],
+    zh: [
+      '电子邮件',
+      '邮件通知（SMTP）',
+      '提醒和每日摘要。通过你自己的 SMTP 服务器发送。',
     ],
   },
   'web-push': {
@@ -402,6 +457,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Thông báo web push',
       'Trên điện thoại và máy tính. Không cần thiết lập khóa.',
     ],
+    zh: [
+      'Web 推送',
+      'Web 推送通知',
+      '手机和电脑上都能收到。无需配置密钥。',
+    ],
   },
   ntfy: {
     de: [
@@ -418,6 +478,7 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
     it: ['ntfy', 'Notifiche ntfy', 'ntfy.sh o il tuo server, su un argomento a tua scelta.'],
     uk: ['ntfy', 'Сповіщення ntfy', 'ntfy.sh або ваш власний сервер, на обрану вами тему.'],
     vi: ['ntfy', 'Thông báo ntfy', 'ntfy.sh hoặc máy chủ của riêng bạn, theo chủ đề bạn chọn.'],
+    zh: ['ntfy', 'ntfy 通知', 'ntfy.sh 或你自己的服务器，主题由你选择。'],
   },
   telegram: {
     de: ['Telegram', 'Telegram-Benachrichtigungen', 'Dein eigener Bot, in deinen Chat.'],
@@ -430,6 +491,7 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Thông báo qua Telegram',
       'Bot của riêng bạn, gửi vào cuộc trò chuyện của bạn.',
     ],
+    zh: ['Telegram', 'Telegram 通知', '你自己的机器人，发到你的聊天。'],
   },
   apprise: {
     de: [
@@ -461,6 +523,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Apprise',
       'Apprise: Discord, Slack, Matrix, Signal',
       'Discord, Slack, Matrix, Signal và nhiều nữa. Qua máy chủ Apprise do bạn tự chạy.',
+    ],
+    zh: [
+      'Apprise',
+      'Apprise：Discord、Slack、Matrix、Signal',
+      'Discord、Slack、Matrix、Signal 等更多。通过你自己运行的 Apprise 服务器。',
     ],
   },
   calendar: {
@@ -494,6 +561,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Nguồn lịch (iCal)',
       'Một liên kết iCal riêng tư. Việc đến hạn, thứ sắp hết.',
     ],
+    zh: [
+      '日历订阅',
+      '日历订阅（iCal）',
+      '一个私密的 iCal 链接。哪些到期，哪些快用完。',
+    ],
   },
   passkeys: {
     de: ['Passkeys', '', 'Das Handy oder der Laptop, den du ohnehin entsperrst.'],
@@ -502,6 +574,7 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
     it: ['Passkey', '', 'Il telefono o il portatile che sblocchi già.'],
     uk: ['Ключі доступу', '', 'Телефон або ноутбук, який ви й так розблоковуєте.'],
     vi: ['Khóa truy cập', '', 'Điện thoại hoặc laptop mà bạn vốn đã mở khóa.'],
+    zh: ['通行密钥', '', '你本来就用来解锁的手机或笔记本电脑。'],
   },
   'two-factor': {
     de: [
@@ -533,6 +606,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Hai yếu tố',
       'Xác thực hai yếu tố',
       'Một ứng dụng xác thực hoặc khóa truy cập. Một địa điểm có thể bắt buộc.',
+    ],
+    zh: [
+      '两步验证',
+      '两步验证',
+      '验证器应用或通行密钥。地点可以要求启用。',
     ],
   },
   oidc: {
@@ -566,6 +644,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Đăng nhập một lần OIDC',
       'Nhà cung cấp danh tính của riêng bạn. Người mới vẫn cần lời mời hoặc một tên miền được cho phép.',
     ],
+    zh: [
+      'OIDC',
+      'OIDC 单点登录',
+      '你自己的身份提供方。新用户仍需邀请或允许的域名。',
+    ],
   },
   google: {
     de: [
@@ -597,6 +680,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Google',
       'Đăng nhập bằng Google',
       'Dành cho người được mời và tài khoản đã liên kết. Không bao giờ mở đăng ký.',
+    ],
+    zh: [
+      'Google',
+      '使用 Google 登录',
+      '面向被邀请的人和已关联的账户。始终不开放注册。',
     ],
   },
   providers: {
@@ -630,6 +718,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Nhà cung cấp AI: OpenAI, Anthropic, Google, Groq, OpenRouter',
       'Hoặc bất kỳ máy chủ nào tương thích OpenAI. Khóa của bạn, hoặc không cần.',
     ],
+    zh: [
+      'AI 提供商',
+      'AI 提供商：OpenAI、Anthropic、Google、Groq、OpenRouter',
+      '或任何兼容 OpenAI 的服务器。用你自己的密钥，或不使用。',
+    ],
   },
   ollama: {
     de: [
@@ -661,6 +754,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Ollama',
       'Ollama (AI cục bộ)',
       'Một mô hình chạy cục bộ trên máy của bạn. Profile ollama trong compose.full.yaml.',
+    ],
+    zh: [
+      'Ollama',
+      'Ollama（本地 AI）',
+      '在你自己机器上运行的本地模型。compose.full.yaml 中的 ollama profile。',
     ],
   },
   assistant: {
@@ -694,6 +792,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Trợ lý AI',
       'Hỏi một thứ đang ở đâu. Câu trả lời nêu rõ các đồ vật; mọi thay đổi chờ bạn duyệt.',
     ],
+    zh: [
+      '助手',
+      'AI 助手',
+      '问问某样东西在哪里。回答会引用具体物品；更改需你确认。',
+    ],
   },
   mcp: {
     de: [
@@ -726,6 +829,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       '',
       'Claude và các ứng dụng AI khác. Token cá nhân hoặc OAuth, giới hạn trong các địa điểm bạn chọn.',
     ],
+    zh: [
+      'MCP 服务器',
+      '',
+      'Claude 及其他 AI 应用。个人令牌或 OAuth，仅限你选择的地点。',
+    ],
   },
   api: {
     de: ['HTTP-API', 'HTTP-API (OpenAPI)', 'Mit OpenAPI dokumentiert. Für deine eigenen Skripte.'],
@@ -737,6 +845,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'HTTP API',
       'HTTP API (OpenAPI)',
       'Được mô tả bằng OpenAPI. Dành cho script của riêng bạn.',
+    ],
+    zh: [
+      'HTTP API',
+      'HTTP API（OpenAPI）',
+      '用 OpenAPI 编写文档。供你自己的脚本使用。',
     ],
   },
   'home-assistant-app': {
@@ -770,6 +883,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       '',
       'Cài từ kho ứng dụng của Home Assistant. Nằm ở thanh bên, có trong bản sao lưu của Home Assistant.',
     ],
+    zh: [
+      'Home Assistant 应用',
+      '',
+      '从 Home Assistant 的应用商店安装。出现在侧边栏，也包含在 Home Assistant 的备份中。',
+    ],
   },
   'home-assistant': {
     de: [
@@ -801,6 +919,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Home Assistant',
       'Tích hợp Home Assistant',
       'Quá hạn, đến hạn và sắp hết hạn theo từng địa điểm, lần bảo dưỡng tiếp theo của mỗi phương tiện. Số đọc công tơ mét được gửi ngược lại.',
+    ],
+    zh: [
+      'Home Assistant',
+      'Home Assistant 集成',
+      '每个地点的逾期、到期和即将过期事项，每辆车的下次保养。里程读数会回传。',
     ],
   },
   dashboards: {
@@ -834,6 +957,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Dashboard: Homepage, Glance, Homarr',
       'Những việc cần bạn, dưới dạng widget. Một lần gọi, một token chỉ đọc.',
     ],
+    zh: [
+      '仪表盘',
+      '仪表盘：Homepage、Glance、Homarr',
+      '把需要你处理的事做成小组件。一次调用，一个只读令牌。',
+    ],
   },
   webhooks: {
     de: [
@@ -861,6 +989,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Webhook',
       '',
       'Các POST có chữ ký gửi đến script của riêng bạn. Lời nhắc và thay đổi trong một địa điểm.',
+    ],
+    zh: [
+      'Webhook',
+      '',
+      '带签名的 POST 发到你自己的脚本。提醒，以及地点中的变更。',
     ],
   },
   labels: {
@@ -894,6 +1027,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Nhãn và mã QR',
       'Tờ A4, Letter (bố cục Avery 5160), cuộn cho máy in nhãn, băng cho máy dán nhãn.',
     ],
+    zh: [
+      'QR 标签',
+      '标签与 QR 码',
+      'A4 纸、Letter（Avery 5160 排版）、标签打印机卷纸、标签机色带。',
+    ],
   },
   'share-links': {
     de: [
@@ -925,6 +1063,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Liên kết chia sẻ',
       'Liên kết chia sẻ chỉ đọc',
       'Một hộp, một phòng hoặc một lần tìm kiếm. Dành cho người không có tài khoản.',
+    ],
+    zh: [
+      '分享链接',
+      '只读分享链接',
+      '一个箱子、一个房间或一次搜索。给没有账户的人。',
     ],
   },
   reports: {
@@ -958,6 +1101,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Báo cáo kiểm kê và bảo hiểm (PDF)',
       'Gửi qua email khi sẵn sàng. Báo cáo kiểm kê cũng có thể gửi hàng tuần hoặc hàng tháng.',
     ],
+    zh: [
+      'PDF 报告',
+      '库存与保险报告（PDF）',
+      '准备好后通过邮件发送。库存报告也可按周或按月生成。',
+    ],
   },
   'claim-pack': {
     de: [
@@ -990,6 +1138,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Hồ sơ yêu cầu bồi thường bảo hiểm',
       'Một tệp ZIP cho hãng bảo hiểm: báo cáo, biên lai, ảnh, số sê-ri.',
     ],
+    zh: [
+      '理赔包',
+      '保险理赔包',
+      '给保险公司的单个 ZIP：报告、收据、照片、序列号。',
+    ],
   },
   export: {
     de: [
@@ -1013,6 +1166,11 @@ export const itemRows: Record<string, Record<OtherLang, Row>> = {
       'Xuất',
       'Xuất một địa điểm',
       'Cả một địa điểm trong tệp ZIP. Kèm một bản sao đọc được mà không cần Kept.',
+    ],
+    zh: [
+      '导出',
+      '导出一个地点',
+      '整个地点打包成一个 ZIP。附带一份无需 Kept 即可阅读的副本。',
     ],
   },
 };

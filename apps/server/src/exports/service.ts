@@ -48,7 +48,7 @@ export const ExportOptionsBody = z
     readable: z.boolean(),
     pdf: z.boolean(),
     // The web's languages; the readable copy is English or Arabic (readable/labels.ts).
-    locale: z.enum(['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi']),
+    locale: z.enum(['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi', 'zh']),
     digits: z.enum(['western', 'eastern']),
   })
   .partial()
@@ -261,7 +261,7 @@ export async function createExport(
   const { rows: profile } = await client.query<{ locale: string; digits: 'western' | 'eastern' }>(
     'SELECT locale, digits FROM public.user_profiles WHERE user_id = kept.current_user_id()',
   );
-  const locale = (['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi'] as const).find(
+  const locale = (['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi', 'zh'] as const).find(
     (l) => l === (profile[0]?.locale ?? '').slice(0, 2),
   );
   const options: ExportOptions = optionsOf({

@@ -296,6 +296,37 @@ const WORDS: Record<MailLocale, Words> = {
       footnote: 'Các kênh khác của bạn không bị ảnh hưởng.',
     },
   },
+  zh: {
+    where: '位置',
+    open: '在 Kept 中打开',
+    openKept: '打开 Kept',
+    digestSubject: (count, day) => `Kept：${day} 的 ${count}`,
+    digestIntro: (day) => `到期与即将到期的内容，截至 ${day}：`,
+    reminderFootnote: (url) =>
+      `你收到此邮件是因为已开启此类提醒。可在 设置 → 我 → 通知 中更改接收内容：${url}`,
+    digestFootnote: (url) =>
+      `此摘要每天发送一次，时间为你所选。可在 设置 → 我 → 通知 中更改：${url}`,
+    role: { admin: '管理员', member: '成员', viewer: '查看者' },
+    ended: {
+      subject: (member, location) => `${member} 不再能访问「${location}」`,
+      body: (member, location, role, day) =>
+        `${member} 以${role}身份对「${location}」的访问已于 ${day} 结束，这是设定的结束日期。`,
+      footnote: '你以所有者身份收到此邮件。如需重新授权，请在位置设置中邀请对方。',
+    },
+    test: {
+      subject: 'Kept：测试通知',
+      body: '这是你从 设置 → 我 → 通知 发送的测试通知。你选择通过邮件接收的提醒将发送到此地址。',
+      footnote: '其他内容没有变化。',
+    },
+    failing: {
+      subject: 'Kept：你的 Webhook 无响应',
+      body: (name) =>
+        `Kept 大约一整天都在尝试向你的 Webhook ${name} 发送提醒，但始终没有收到响应，因此提醒无法送达。`,
+      next: '请确认地址正确且接收端正在运行，然后从 设置 → 我 → 通知 发送测试通知。',
+      action: '打开通知设置',
+      footnote: '你的其他渠道不受影响。',
+    },
+  },
 };
 
 /** The headline and the "where" line of one reminder, in `locale`. */
@@ -384,6 +415,15 @@ const SUMMARY: Record<MailLocale, SummaryWords> = {
     action: 'Mở mức sử dụng AI',
     footnote:
       'Bạn nhận được thông báo này mỗi tháng một lần về AI do tài khoản hoặc khóa riêng của bạn trả tiền. Tắt nó trong Cài đặt → Tôi → Thông báo.',
+  },
+  zh: {
+    subject: (month) => `Kept：${month} 的 AI 用量`,
+    line: (month, calls, tokens, cost) =>
+      `${month} 的 AI：${calls} 次调用，${tokens} 个 token${cost ? `，约 ${cost}` : ''}。`,
+    unknown: (n) => `有 ${n} 次调用没有价格，费用未计入。`,
+    action: '打开 AI 用量',
+    footnote:
+      '你每月会收到一次由你的账户或你自己的密钥付费的 AI 用量邮件。可在 设置 → 我 → 通知 中关闭。',
   },
 };
 
@@ -481,4 +521,5 @@ export const NOTIFY_MESSAGES: Record<MailLocale, NotifyTable> = {
   it: table('it'),
   uk: table('uk'),
   vi: table('vi'),
+  zh: table('zh'),
 };

@@ -27,6 +27,7 @@ const NAMES: Record<MailLocale, { thing: string; path: string; location: string 
   it: { thing: 'Trapano', path: 'Garage › Scaffale', location: 'Casa' },
   uk: { thing: 'Дриль', path: 'Гараж › Полиця', location: 'Дім' },
   vi: { thing: 'Máy khoan', path: 'Nhà xe › Kệ', location: 'Nhà' },
+  zh: { thing: '电钻', path: '车库 › 货架', location: '家' },
 };
 
 function facts(locale: MailLocale, f: Partial<ReminderFacts>): ReminderFacts {

@@ -1,0 +1,148 @@
+---
+title: Home Assistant
+description: "Kept 在 Home Assistant 中：逾期、到期与即将到期的传感器，每辆车的读数与下次保养，日历，以及回传的里程表读数。"
+---
+
+import { Image } from 'astro:assets';
+import diagramLight from '../../../assets/diagrams/home-assistant-light.svg';
+import diagramDark from '../../../assets/diagrams/home-assistant-dark.svg';
+
+[Home Assistant](https://www.home-assistant.io/) 的 Kept 集成会显示每个位置中需要你处理的事项，并回传读数，例如汽车集成已知的里程表。它用[个人令牌](/zh/users/mcp-clients/#make-a-personal-token)读取 Kept。
+
+集成：[keptinventory/kept-homeassistant](https://github.com/keptinventory/kept-homeassistant)，通过 [HACS](https://hacs.xyz/) 作为自定义仓库安装。
+
+可选：仅当你已经在运行 [Home Assistant](https://www.home-assistant.io/installation/) 时需要。没有它 Kept 照样工作。
+
+## 应用与集成
+
+<Image src={diagramLight} alt="Kept，运行在你的服务器或作为 Home Assistant 应用，以及 Home Assistant 内的 Kept 集成：集成每 5 分钟读取 Kept 并回传读数，其传感器、日历与动作为仪表盘、自动化和日历供数" class="kd-only-light" />
+<Image src={diagramDark} alt="Kept，运行在你的服务器或作为 Home Assistant 应用，以及 Home Assistant 内的 Kept 集成：集成每 5 分钟读取 Kept 并回传读数，其传感器、日历与动作为仪表盘、自动化和日历供数" class="kd-only-dark" />
+
+- **应用**在 Home Assistant OS 上运行 Kept（[安装它](/zh/install/home-assistant/)）。你自己服务器上的 Kept 工作方式相同。
+- **集成**把 Kept 带进 Home Assistant：传感器、日历与动作。只有集成能添加实体，因此应用不能。
+- **在应用上，无需复制：** Home Assistant 自行发现 Kept 应用并请求连接；你在 Kept 中允许。无需创建令牌，也无需 https（[从应用设置](#set-up-from-the-app)）。
+
+## 开始之前
+
+| 需要 | 原因 |
+|---|---|
+| **Home Assistant 2026.10 或更新** | 集成针对其构建与测试 |
+| Home Assistant 中的 **HACS** | 它安装集成。[下载 HACS](https://hacs.xyz/docs/use/download/download/)（[前置要求](https://hacs.xyz/docs/use/download/prerequisites/)） |
+| **Kept 1.8.0 或更新** | 它添加传感器读取的摘要 |
+| **个人令牌** | 应用仅通过 HTTPS 创建（[HTTPS](/zh/install/https/)）；家庭网络上用 `http` 时，[在服务器上创建](/zh/admin/cli/#a-token-from-the-server) |
+| **Home Assistant 能访问 Kept** | 同一网络、如 Tailscale 的 VPN，或公网地址。测试：从运行 Home Assistant 的机器打开 Kept 地址 |
+
+## 你会得到什么
+
+每个位置在 Home Assistant 中是一个设备：
+
+| 实体 | 显示内容 |
+|---|---|
+| **Overdue**、**Due**、**Expiring** | Kept 首页上的计数。`items` 属性列出前 10 项，最紧急在前 |
+| **Lent out**、**Borrowed in** | 未结借用。仅 Lending 开启处 |
+| **Uncertain**、**Long unseen** | 位置存疑，或在位置所设月数内未见的物品 |
+| **Low stock** | 低于最低量的物品。仅 Consumables 开启处 |
+| **Unplaced**、**Things** | 初始关闭；在 Home Assistant 中开启 |
+| **Due dates**（日历） | 每个有到期日的条目，作为全天事件 |
+
+每辆车（带仪表的物品，在 **Vehicles** 下）在该位置中是一个设备：
+
+| 实体 | 显示内容 |
+|---|---|
+| **Reading** | 最新读数，单位 km、mi 或小时 |
+| **Next service** | 到期日，或 Kept 根据你的读数估算 |
+| **Next service at** | 到期时的读数 |
+
+之后在 Kept 中添加的位置或车辆会在你重载集成后出现。
+
+## 从应用设置
+
+同一个 Home Assistant 中有 [Kept 应用](/zh/install/home-assistant/)时，无需创建或复制令牌，也无需 https。
+
+1. 用 HACS **安装**集成（[设置](#set-up)的第 2 步）并重启 Home Assistant。
+2. **添加它。** **Settings → Devices & services** 会显示发现的 Kept。添加并确认。
+3. **在 Kept 中允许。** Home Assistant 显示一个代码并等待。打开 Kept（侧边栏可用）到 **Settings → Connections**：**Home Assistant asks to connect** 显示相同代码。**Allow**，勾选位置并选择其能做什么，与令牌相同。
+4. **完成。** Home Assistant 自行完成，并命名你的 Kept 版本与位置。
+
+Home Assistant 得到的是：一个名为 **Home Assistant** 的普通个人令牌，由你创建并代表你，作用于你勾选的位置。它从 Kept 经 Home Assistant 内部网络到 Home Assistant，从不在页面上显示。在 **Settings → Connections** 撤销。10 分钟内无人允许的请求会结束：从 Home Assistant 重新开始。
+
+## 设置
+
+1. **创建令牌。** 在 Kept 中，**Settings → Connections → New token**。勾选 Home Assistant 应看到的位置。传感器与日历用 **Read only** 足够；**Read and change** 还能让下面的动作发送读数并标记日程完成。应用仅在 Kept 以 `https` 提供时创建令牌（[HTTPS](/zh/install/https/)）；`http` 下，运行服务器的人用 [`kept admin token create`](/zh/admin/cli/#a-token-from-the-server) 创建。
+2. **安装。** 在 HACS 中，**⋮ → Custom repositories**（[如何](https://hacs.xyz/docs/faq/custom_repositories/)）：添加 `https://github.com/keptinventory/kept-homeassistant`，类型选 **Integration**。安装 **Kept**，并重启 Home Assistant。
+3. **添加它。** **Settings → Devices & services → Add integration → Kept**。输入 Kept 地址（`https://kept.example.org`）与令牌。仅当自签名证书在你自己的网络上时才关闭 **Check the HTTPS certificate**。
+4. **检查。** 下一步会命名你的 Kept 版本与令牌可达的位置。**Submit** 添加它们。
+
+出错时设置会告诉你：
+
+| 消息 | 怎么办 |
+|---|---|
+| Kept can't be reached | 检查地址，以及 Home Assistant 能否到达该主机 |
+| It isn't Kept | 地址有响应，但不是它：代理页面、另一个应用 |
+| That address redirects to HTTPS | 使用它点名的 `https://` 地址 |
+| The HTTPS certificate isn't trusted | 使用受信任的证书，或为自签名证书关闭检查 |
+| HTTPS failed | Kept 在该端口以普通 `http` 提供：改用 `http://` |
+| Kept refused the token | 已撤销、过期或输错：创建新的 |
+| This Kept doesn't offer the summary | 更新 Kept |
+
+集成上的 **Configure** 选择显示令牌的哪些位置，以及多久读取一次 Kept（每 5 分钟；1 到 60）。令牌被撤销或过期时，Home Assistant 会请求新的。
+
+## 在仪表盘上
+
+实体 ID 来自 Kept 中的名称。位置名为 **Home**、车名为 **Corolla** 时：`sensor.home_overdue`、`sensor.home_due`、`sensor.home_expiring`、`sensor.home_lent_out`、`sensor.home_low_stock`、`calendar.home_due_dates`、`sensor.corolla_reading`、`sensor.corolla_next_service`。在 **Settings → Devices & services → Kept** 下核对你自己的。
+
+每个计数一张 [tile card](https://www.home-assistant.io/dashboards/tile/)，或一张 [entities card](https://www.home-assistant.io/dashboards/entities/)：
+
+```yaml
+type: entities
+title: Kept, Home
+entities:
+  - sensor.home_overdue
+  - sensor.home_due
+  - sensor.home_expiring
+  - sensor.home_lent_out
+  - sensor.home_low_stock
+  - sensor.corolla_next_service
+```
+
+**Due dates** 日历显示在 Home Assistant 的 **Calendar** 面板中。
+
+## 动作
+
+**Kept: Log a reading**（`kept.log_reading`）为车辆（或按 id 的仪表：**Reading** 传感器的 `meter_id`）发送读数。它在 Kept 中显示为来自 Home Assistant 的读数。Kept 拒绝低于前一次的读数，动作会以 Kept 的原因失败；Kept 认为不太可能的跳变会在收件箱中等待审核。
+
+**Kept: Mark a schedule done**（`kept.complete_schedule`）在某天（今天，按位置时区）标记日程完成并记录保养，对按仪表的日程还带读数。一次性日程随后完成并离开计数；再次标记会失败。
+
+两者都需要 **Read and change** 令牌。
+
+### 汽车里程表发送到 Kept
+
+当汽车里程表稳定 10 分钟（车已停放）时：
+
+```yaml
+alias: Odometer to Kept
+triggers:
+  - trigger: state
+    entity_id: sensor.my_car_odometer
+    for: "00:10:00"
+conditions:
+  - condition: template
+    value_template: "{{ trigger.to_state.state | is_number }}"
+actions:
+  - action: kept.log_reading
+    data:
+      device_id: YOUR_KEPT_VEHICLE_DEVICE_ID
+      value: "{{ trigger.to_state.state | float }}"
+mode: queued
+```
+
+`sensor.my_car_odometer` 是你汽车集成的传感器。在自动化编辑器中，在动作的 **Vehicle** 字段选择 Kept 车辆以填写 `device_id`。按 Kept 中该仪表的单位发送读数。
+
+## 更新或移除
+
+- **更新：** 新版本显示在 **Settings → Updates** 下（HACS 会添加）。安装并重启 Home Assistant。
+- **移除：** **Settings → Devices & services → Kept → ⋮ → Delete**，然后在 HACS 中移除 **Kept** 并重启。在 Kept 中撤销令牌：**Settings → Connections**。
+
+## 它读取什么
+
+每隔几分钟，用该令牌：`GET /api/v1/summary`（各位置计数）、`GET /api/v1/vehicles` 与 `GET /api/v1/agenda` 的第一页。日历读取 `GET /api/v1/agenda` 获取其显示的日期。动作使用 `POST /api/v1/meters/{id}/readings` 与 `POST /api/v1/schedules/{id}/complete`。令牌只看得到自己的位置，且绝不会超过你能看到的范围。同一摘要也供[仪表盘组件](/zh/users/dashboards/)使用。

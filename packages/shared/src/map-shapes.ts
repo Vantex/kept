@@ -137,9 +137,9 @@ export const SHAPE_GROUP: Readonly<Record<MapModelKey, ShapeGroup>> = {
 const STAND_INS: ReadonlySet<MapModelKey> = new Set(['device', 'item']);
 
 /**
- * Words for each shape, in Arabic, English, French, German and Italian (written as people type
- * them; accents, Arabic vowel marks and letter forms are folded by `foldText`). Search finds a
- * shape by these too.
+ * Words for each shape, in Arabic, English, French, German, Italian, Spanish, Ukrainian,
+ * Vietnamese and Chinese (written as people type them; accents, Arabic vowel marks and letter
+ * forms are folded by `foldText`). Search finds a shape by these too.
  */
 /** What every speaker answers to: "Speaker" alone could be any size, so it suggests them all and
  * gives none by itself; "Desk speaker" or "JBL Flip" says which. */
@@ -156,6 +156,8 @@ const SPEAKER = [
   'سماعات',
   'مكبر صوت',
   'سبيكر',
+  '音箱',
+  '扬声器',
 ] as const;
 
 /** What every server rack answers to (#171): "Server rack" alone could be any size, so it suggests
@@ -184,6 +186,8 @@ const RACK = [
   'خزانة شبكة',
   'كابينة شبكة',
   'راك',
+  '机柜',
+  '服务器机柜',
 ] as const;
 
 /** What both wall-mounted racks answer to. */
@@ -201,6 +205,7 @@ const WALL_RACK = [
   'armadio rack a muro',
   'راك حائط',
   'خزانة شبكة حائط',
+  '壁挂机柜',
 ] as const;
 
 /** What both floor-standing racks answer to. */
@@ -212,6 +217,7 @@ const FLOOR_RACK = [
   'standschrank',
   'armadio rack a pavimento',
   'راك أرضي',
+  '落地机柜',
 ] as const;
 
 export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
@@ -229,6 +235,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'кушетка',
     'софа',
     'diván',
+    '沙发',
+    '布艺沙发',
   ],
   armchair: [
     'armchair',
@@ -245,6 +253,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'фотель',
     'sillón',
     'butaca',
+    '扶手椅',
+    '单人沙发',
   ],
   coffee_table: [
     'coffee table',
@@ -260,6 +270,7 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'mesa de centro',
     'mesa baja',
     'mesita de centro',
+    '茶几',
   ],
   tv_stand: [
     'tv stand',
@@ -287,6 +298,7 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'медіа-тумба',
     'mueble tv',
     'mueble de televisión',
+    '电视柜',
   ],
   // A cube shelf's family word is shared with the one sized by its grid (#240), which has the
   // grid unit's own words.
@@ -387,6 +399,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'silla',
     'silla de comedor',
     'silla de cocina',
+    '餐椅',
+    '椅子',
   ],
   drawers: [
     'drawers',
@@ -423,6 +437,7 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'тумбочка',
     'mesita de noche',
     'mesa de noche',
+    '床头柜',
   ],
   metal_shelf: [
     'shelf',
@@ -446,6 +461,9 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'estantería metálica',
     'estantería de metal',
     'rack metálico',
+    '货架',
+    '金属架',
+    '置物架',
   ],
   tool_cart: [
     'tool cart',
@@ -665,6 +683,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'екран',
     'tele',
     'televisor',
+    '电视',
+    '电视机',
   ],
   bookshelf: [
     'bookshelf',
@@ -681,6 +701,7 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'estantería',
     'librería',
     'estantería de libros',
+    '书架',
   ],
   /** #240: the family's word "cube shelf", then the grid unit's own. */
   cube_grid: [
@@ -709,6 +730,9 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'estantería de cubos',
     'organizador de cubos',
     'estantería modular',
+    '格子架',
+    '收纳格',
+    '方格柜',
   ],
   /** #241: the bookshelf's words, shared, then a tall narrow one's own. */
   bookcase: [
@@ -739,6 +763,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'librería',
     'estantería alta',
     'estantería grande',
+    '书柜',
+    '高书架',
   ],
   lamp: [
     'lamp',
@@ -825,6 +851,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'холодильник',
     'nevera',
     'frigorífico',
+    '冰箱',
+    '冷柜',
   ],
   coffee_machine: [
     'coffee machine',
@@ -894,6 +922,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'обідній стіл',
     'кухонний стіл',
     'mesa de comedor',
+    '餐桌',
+    '桌子',
   ],
   bed: [
     'bed',
@@ -908,6 +938,7 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'giường đơn',
     'ліжко',
     'cama',
+    '床',
   ],
   wardrobe: [
     'wardrobe',
@@ -959,6 +990,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'bàn học',
     'письмовий стіл',
     'escritorio',
+    '书桌',
+    '办公桌',
   ],
   monitor: [
     'monitor',
@@ -975,6 +1008,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'монітор',
     'екран',
     'pantalla',
+    '显示器',
+    '屏幕',
   ],
   laptop: [
     'laptop',
@@ -995,6 +1030,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'ноут',
     'portátil',
     'computadora portátil',
+    '笔记本电脑',
+    '笔记本',
   ],
   monitor_arm: [
     'monitor arm',
@@ -1545,6 +1582,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'міні пк',
     'mini ordenador',
     'ordenador pequeño',
+    '迷你主机',
+    '迷你电脑',
   ],
   nas: [
     'nas',
@@ -1565,6 +1604,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'мережевий накопичувач',
     'мережове сховище',
     'servidor de archivos',
+    '网络存储',
+    'nas',
   ],
   sbc: [
     'raspberry pi',
@@ -1583,6 +1624,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'máy tính nhúng',
     "одноплатний комп'ютер",
     'ordenador de placa',
+    '树莓派',
+    '单板计算机',
   ],
   // Never "switch" alone: that is as often a Nintendo Switch or a light switch.
   network_switch: [
@@ -1609,6 +1652,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'комутатор',
     'conmutador de red',
     'conmutador',
+    '交换机',
+    '网络交换机',
   ],
   patch_panel: [
     'patch panel',
@@ -1624,6 +1669,7 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'патч-панель',
     'panel de conexión',
     'panel de parcheo',
+    '配线架',
   ],
   ups: [
     'ups',
@@ -1641,6 +1687,7 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'блок безперебійного живлення',
     'безперебійник',
     'sistema de alimentación ininterrumpida',
+    '不间断电源',
   ],
   device: [
     'gadget',
@@ -1705,6 +1752,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'стілець',
     'silla de oficina',
     'silla de ordenador',
+    '办公椅',
+    '电脑椅',
   ],
   cabinet: [
     'cabinet',
@@ -1741,6 +1790,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'коробка',
     'caja',
     'caja de almacenamiento',
+    '盒子',
+    '收纳箱',
   ],
   rack_24u: [
     ...FLOOR_RACK,
@@ -1754,6 +1805,7 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'серверна стійка 24u',
     'мережева стійка 24u',
     'rack 24u',
+    '24u机柜',
   ],
   rack_42u: [
     ...FLOOR_RACK,
@@ -1767,6 +1819,7 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'серверна стійка 42u',
     'мережева стійка 42u',
     'rack 42u',
+    '42u机柜',
   ],
   washer: [
     'washing machine',
@@ -1793,6 +1846,9 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'пральна машина',
     'lavadora',
     'lavarropas',
+    '洗衣机',
+    '烘干机',
+    '洗碗机',
   ],
   workbench: [
     'workbench',
@@ -1901,6 +1957,7 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'серверна стійка на стіні 6u',
     'навісна стійка 6u',
     'rack de pared 6u',
+    '6u壁挂机柜',
   ],
   rack_wall_12u: [
     ...WALL_RACK,
@@ -1913,6 +1970,7 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'серверна стійка на стіні 12u',
     'навісна стійка 12u',
     'rack de pared 12u',
+    '12u壁挂机柜',
   ],
   picture: [
     'picture',
@@ -2019,6 +2077,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'машина',
     'coche',
     'automóvil',
+    '汽车',
+    '车',
   ],
   bike: [
     'bike',
@@ -2044,6 +2104,8 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
     'xe đạp',
     'велосипед',
     'bicicleta',
+    '自行车',
+    '单车',
   ],
   water_tank: [
     'water tank',
@@ -2144,7 +2206,7 @@ export const SHAPE_WORDS: Readonly<Record<MapModelKey, readonly string[]>> = {
   ],
 };
 
-export const SHAPE_LANGS = ['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi'] as const;
+export const SHAPE_LANGS = ['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi', 'zh'] as const;
 export type ShapeLang = (typeof SHAPE_LANGS)[number];
 
 /** The languages SHAPE_WORD_LANGS lists; English is what is left, the others have a script. */
@@ -2154,7 +2216,7 @@ const LISTED_LANGS = ['de', 'es', 'fr', 'it', 'vi'] as const;
  * The words in SHAPE_WORDS that are French, German, Italian, Spanish or Vietnamese rather than
  * English (#130), for search: a reader's own language and English (the base of the shapes' names)
  * match by any start; the other languages only by a whole word, or when nothing else matches.
- * Arabic and Ukrainian are told by their script; a word not listed here is English (a word both
+ * Arabic, Ukrainian and Chinese are told by their script; a word not listed here is English (a word both
  * English and another language's, such as "box" or "tablet", counts as English).
  *
  * The words also feed suggestions from a thing's name, whatever its language, so a word goes in
@@ -3638,9 +3700,15 @@ function meet(text: string, q: string): { tier: number; fit: number } {
   return inside >= 0 ? at(inside, 1) : { tier: 0, fit: 0 };
 }
 
-/** The language a word's script says, for the two told by theirs. */
+/** The language a word's script says, for the three told by theirs. */
 const byScript = (w: string): ShapeLang | null =>
-  /\p{Script=Arabic}/u.test(w) ? 'ar' : /\p{Script=Cyrillic}/u.test(w) ? 'uk' : null;
+  /\p{Script=Han}/u.test(w)
+    ? 'zh'
+    : /\p{Script=Arabic}/u.test(w)
+      ? 'ar'
+      : /\p{Script=Cyrillic}/u.test(w)
+        ? 'uk'
+        : null;
 const foldedIn = (l: (typeof LISTED_LANGS)[number]): ReadonlySet<string> =>
   new Set(SHAPE_WORD_LANGS[l].map((w) => words(w).join(' ')));
 const FOREIGN = {
@@ -3660,8 +3728,9 @@ function langsOf(w: string): ShapeLang[] {
 }
 
 /** For another language's reader, these languages' words count only as the whole phrase, not a
- * word of it: "so" in English isn't Vietnamese "tủ hồ sơ", "de" isn't Spanish "mesa de centro". */
-const WHOLE_PHRASE: ReadonlySet<ShapeLang> = new Set(['es', 'uk', 'vi']);
+ * word of it: "so" in English isn't Vietnamese "tủ hồ sơ", "de" isn't Spanish "mesa de centro".
+ * Chinese has no spaces, so a partial start of a Han word is as loose as a word of a phrase. */
+const WHOLE_PHRASE: ReadonlySet<ShapeLang> = new Set(['es', 'uk', 'vi', 'zh']);
 
 /** Each shape's words, folded once, with their languages. */
 const FOLDED_WORDS: ReadonlyMap<MapModelKey, readonly { text: string; langs: ShapeLang[] }[]> =
@@ -3675,10 +3744,10 @@ const FOLDED_WORDS: ReadonlyMap<MapModelKey, readonly { text: string; langs: Sha
     ]),
   );
 
-/** A shape's words as written, by language (the docs' shape library, #171): Arabic and Ukrainian
- * by their script, the others as SHAPE_WORD_LANGS lists them (a word two of them share, "moto",
- * under both), anything else English. Unlike search, the word as written decides: "television" is
- * English even though French "télévision" folds to it. */
+/** A shape's words as written, by language (the docs' shape library, #171): Arabic, Ukrainian and
+ * Chinese by their script, the others as SHAPE_WORD_LANGS lists them (a word two of them share,
+ * "moto", under both), anything else English. Unlike search, the word as written decides:
+ * "television" is English even though French "télévision" folds to it. */
 export function shapeWordsByLang(model: MapModelKey): Record<ShapeLang, string[]> {
   const out: Record<ShapeLang, string[]> = {
     ar: [],
@@ -3689,6 +3758,7 @@ export function shapeWordsByLang(model: MapModelKey): Record<ShapeLang, string[]
     it: [],
     uk: [],
     vi: [],
+    zh: [],
   };
   for (const w of SHAPE_WORDS[model]) {
     const script = byScript(w);

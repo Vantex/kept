@@ -384,7 +384,7 @@ describe('the message table', () => {
   });
 
   it('writes every language beyond English and Arabic as its own text, never English left in', () => {
-    for (const locale of ['de', 'es', 'fr', 'it', 'uk', 'vi'] as const) {
+    for (const locale of ['de', 'es', 'fr', 'it', 'uk', 'vi', 'zh'] as const) {
       for (const mail of EVERY_MAIL) {
         const en = messageFor(mail, 'en', ctx);
         const m = messageFor(mail, locale, ctx);

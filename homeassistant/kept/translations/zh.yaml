@@ -1,0 +1,107 @@
+configuration:
+  public_url:
+    name: Kept 的地址
+    description: >-
+      手机、打印标签和邮件链接使用的地址，例如
+      http://homeassistant.local:8080 或 https://kept.example.org. 留空：使用 Home Assistant 的主机名和本应用的端口。不含路径。
+  log_level:
+    name: 日志详细程度
+    description: Kept 写入「日志」标签页的内容多少。
+  smtp_url:
+    name: 外发邮件
+    description: >-
+      带账号信息的 smtp:// 或 smtps:// URL，例如 smtps://user:password@mail.example.org.
+      留空：Kept 不发送邮件。
+  smtp_from:
+    name: 邮件发件人
+    description: Kept 邮件的发件人，例如 Kept <kept@example.org>。
+  ssl:
+    name: Kept 端口上的 https
+    description: >-
+      使用 Home Assistant 证书（来自 /ssl）在 Kept 端口上以 https 提供服务。
+      令牌、通行密钥、摄像头和可安装应用都需要 https。证书续期后请重启本应用。
+  certfile:
+    name: 证书文件
+    description: /ssl 中的证书文件名。
+  keyfile:
+    name: 私钥文件
+    description: /ssl 中的私钥文件名。
+  hsts:
+    name: HSTS
+    description: >-
+      开启 https 后，Kept 会要求浏览器在一年内对该主机名的所有端口使用 https，
+      包括 Home Assistant 自身。off：当 Home Assistant 或本主机名上的其他应用使用普通 http 时；
+      浏览器会在下次通过 https 访问 Kept 时忘记该策略。
+  http_sign_in_days:
+    name: http 上的登录时长
+    description: >-
+      普通 http 上一次登录持续的天数，1 到 30，使用中会续期；家庭网络适合 7。
+      留空：12 小时，不续期。开启 https 时无效。在普通 http 上，任何能看到流量的人都能复制登录 Cookie；
+      开启此设置后，被复制的 Cookie 只要仍在使用就继续有效，直到该设备退出登录或你的其他设备被登出。
+  extra_addresses:
+    name: 附加地址
+    description: >-
+      本 Kept 还会响应的其他地址，用逗号分隔，与浏览器显示的完全一致：
+      http://192.0.2.20:8080. 不支持通配符，且须与 Kept 地址使用相同的 http 或 https。
+      每个地址单独登录。链接、邮件、通行密钥和 AI 应用仍使用 Kept 的地址。
+      只列出能访问到本 Kept 的地址。
+  oidc_issuer:
+    name: OIDC 签发方
+    description: >-
+      使用你自己的身份提供方登录：签发方 URL 须与其发现文档中写明的完全一致。
+      与客户端 ID 一并设置后，OIDC 登录即开启。
+      需要注册的重定向 URL：Kept 的地址后接 /api/v1/auth/callback/oidc。
+  oidc_client_id:
+    name: OIDC 客户端 ID
+    description: 身份提供方处的客户端 ID。
+  oidc_client_secret:
+    name: OIDC 客户端密钥
+    description: 客户端密钥，用于机密客户端。公共客户端请留空。
+  oidc_name:
+    name: OIDC 按钮名称
+    description: >-
+      「使用…登录」中提供方的名称，最多 60 个字符。留空：OIDC。
+  oidc_autoprovision_domains:
+    name: 按邮箱域名的 OIDC 注册
+    description: >-
+      逗号分隔的邮箱域名（精确匹配，不含子域名），其用户首次登录时自动获得账户。
+      留空：仅限邀请。
+  oidc_autoprovision_groups:
+    name: 按组的 OIDC 注册
+    description: >-
+      逗号分隔的组（精确匹配），其成员首次登录时自动获得账户。留空：仅限邀请。
+  oidc_groups_claim:
+    name: OIDC 组声明
+    description: >-
+      存放组信息的 ID 令牌声明。留空：groups。
+  oidc_scopes:
+    name: OIDC scope
+    description: >-
+      请求的 scope，以空格分隔。留空：openid email profile。
+  google_client_id:
+    name: Google 客户端 ID
+    description: >-
+      使用 Google 登录，需来自 Google Cloud 的 OAuth 客户端。与密钥一并设置后，
+      Google 登录即开启，仅对已有账户和受邀人员有效。Google 要求 Kept 的地址使用 https
+      且具有公网域名（不能是 http、.local 或 IP 地址）：请设置 Kept 的地址，
+      例如配合在 Kept 端口上开启 https 的 DuckDNS 名称。需要注册的重定向 URL：
+      Kept 的地址后接 /api/v1/auth/callback/google。
+  google_client_secret:
+    name: Google 客户端密钥
+    description: OAuth 客户端的密钥。
+  apprise_url:
+    name: Apprise 服务器
+    description: >-
+      Apprise 通知渠道所经过的 Apprise API 服务器，例如
+      http://apprise:8000. 留空：用户无法添加 Apprise 渠道。
+  signup_open:
+    name: 注册
+    description: >-
+      true 锁定为开放注册，false 锁定为关闭（仅限邀请）；管理员设置随后显示为已锁定。
+      未设置：由管理员在 Kept 中决定（Admin → 注册）。
+  max_file_mb:
+    name: 上传上限（MB）
+    description: >-
+      单次上传允许的最大文件大小，1 到 2048。留空：25。
+network:
+  8080/tcp: Kept 自己的地址，供手机、标签和邮件链接使用

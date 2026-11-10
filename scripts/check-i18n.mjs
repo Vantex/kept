@@ -51,7 +51,7 @@ export function compareCatalogues(extracted, catalogues, sourceLocale = 'en') {
 }
 
 /** The languages the app ships. Removing one from lingui.config.ts fails the check. */
-export const REQUIRED_LOCALES = ['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi'];
+export const REQUIRED_LOCALES = ['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi', 'zh'];
 
 /** Required locales the config doesn't list. */
 export function missingLocales(configLocales) {

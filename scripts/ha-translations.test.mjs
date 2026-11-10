@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest';
 // one file lacks shows the raw option name in that language.
 
 const DIR = new URL('../homeassistant/kept/translations/', import.meta.url);
-const LANGUAGES = ['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi'];
+const LANGUAGES = ['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi', 'zh'];
 // Home Assistant lists Latin American Spanish as its own language and falls back to English from
 // it, not to Spanish, so it gets the Spanish file again.
 const FILES = [...LANGUAGES, 'es-419'];

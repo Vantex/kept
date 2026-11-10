@@ -10,6 +10,7 @@ export const sidebarLabels = {
     it: 'Usare Kept',
     uk: 'Користування Kept',
     vi: 'Dùng Kept',
+    zh: '使用 Kept',
   },
   Install: {
     ar: 'التثبيت',
@@ -19,6 +20,7 @@ export const sidebarLabels = {
     it: 'Installazione',
     uk: 'Встановлення',
     vi: 'Cài đặt',
+    zh: '安装',
   },
   'Backups and restore': {
     ar: 'النسخ الاحتياطي والاستعادة',
@@ -28,6 +30,7 @@ export const sidebarLabels = {
     it: 'Backup e ripristino',
     uk: 'Резервні копії та відновлення',
     vi: 'Sao lưu và khôi phục',
+    zh: '备份与恢复',
   },
   'Run Kept': {
     ar: 'تشغيل Kept',
@@ -37,6 +40,7 @@ export const sidebarLabels = {
     it: 'Gestire Kept',
     uk: 'Запуск Kept',
     vi: 'Vận hành Kept',
+    zh: '运行 Kept',
   },
   'Build on Kept': {
     ar: 'التطوير',
@@ -46,6 +50,7 @@ export const sidebarLabels = {
     it: 'Costruire su Kept',
     uk: 'Розробка на Kept',
     vi: 'Xây dựng trên Kept',
+    zh: '基于 Kept 开发',
   },
   'Maintain Kept': {
     ar: 'صيانة المشروع',
@@ -55,6 +60,7 @@ export const sidebarLabels = {
     it: 'Mantenere Kept',
     uk: 'Підтримка Kept',
     vi: 'Bảo trì Kept',
+    zh: '维护 Kept',
   },
   // The group starlight-openapi writes: src/route-data.ts renames it, astro.config.mjs can't.
   'API reference': {
@@ -65,5 +71,6 @@ export const sidebarLabels = {
     it: 'Riferimento API',
     uk: 'Довідник API',
     vi: 'Tham chiếu API',
+    zh: 'API 参考',
   },
 };

@@ -17,6 +17,7 @@ export const siteSub: Words<string> = {
   it: 'Guida',
   uk: 'Довідник',
   vi: 'Tài liệu',
+  zh: '文档',
 };
 
 export interface HeroWords {
@@ -73,6 +74,12 @@ export const hero: Words<HeroWords> = {
     facts: ['AGPL-3.0', 'Docker hoặc Kubernetes', 'Ứng dụng điện thoại chạy ngoại tuyến'],
     mapAlt:
       'Bản đồ 3D của Kept cho một ngôi nhà: các phòng nhìn theo góc isometric, mỗi phòng có tên, cùng đồ nội thất và hộp, bên cạnh cây vị trí của địa điểm',
+  },
+  zh: {
+    eyebrow: '新功能：3D 地图',
+    facts: ['AGPL-3.0', 'Docker 或 Kubernetes', '手机应用，离线可用'],
+    mapAlt:
+      'Kept 为一个家绘制的 3D 地图：等距视角下的各个房间，每间都有名称，摆着家具和箱子，旁边是该地点的位置树',
   },
 };
 
@@ -141,6 +148,13 @@ export const gallery: Words<GalleryWords> = {
     pause: 'Tạm dừng trình chiếu',
     play: 'Chạy trình chiếu',
   },
+  zh: {
+    previous: '上一屏',
+    next: '下一屏',
+    of: '/',
+    pause: '暂停幻灯片',
+    play: '播放幻灯片',
+  },
 };
 
 export interface IntegrationsWords {
@@ -182,6 +196,10 @@ export const integrations: Words<IntegrationsWords> = {
   vi: {
     setUp: 'Cách thiết lập',
     all: (count) => `Tất cả ${count} tích hợp và cách thiết lập từng cái`,
+  },
+  zh: {
+    setUp: '如何设置',
+    all: (count) => `全部 ${count} 个集成，以及各自的设置方法`,
   },
 };
 
@@ -252,6 +270,13 @@ export const tryKept: Words<TryKeptWords> = {
     desktop:
       'Trang chủ của Kept trên máy tính: Bắt đầu, các ô Cần bạn, các địa điểm cùng bản xem trước bản đồ, lối tắt và thống kê',
     phone: 'Trang chủ của Kept trên điện thoại: các ô Cần bạn và lối tắt, phía trên thanh tab',
+  },
+  zh: {
+    note: '完整的应用，带一个示例家庭，就在你的浏览器里。不会保存，也不会发送任何内容。',
+    open: '打开 Kept',
+    desktop:
+      'Kept 首页（桌面端）：快速开始、需要你卡片、带地图预览的地点、快捷方式和洞察',
+    phone: 'Kept 首页（手机端）：需要你卡片和快捷方式，位于标签栏上方',
   },
 };
 
@@ -361,6 +386,18 @@ export const tryMap: Words<TryMapWords> = {
     credit: [
       'Đồ nội thất, cây cảnh, dụng cụ và dàn nóng điều hòa là các mô hình miễn phí từ ',
       ' (CC0), đã thu nhỏ cho điện thoại. Tắt “Mô hình chi tiết” để không tải mô hình nào.',
+    ],
+  },
+  zh: {
+    note: '一个示例之家，就在你的浏览器里。你所做的任何更改都不会保存，也不会发送到任何地方。',
+    reset: '重置',
+    install: '安装 Kept',
+    loading: '正在加载地图…',
+    failed: '地图无法加载。请重新加载页面再试一次。',
+    noscript: '地图需要 JavaScript。',
+    credit: [
+      '家具、植物、工具和空调机组是来自 ',
+      ' 的免费模型（CC0），已为手机缩小。关闭「详细模型」即可不下载任何模型。',
     ],
   },
 };
@@ -474,5 +511,17 @@ export const install: Words<InstallWords> = {
     },
     need: 'Bạn cần',
     see: 'Bạn sẽ thấy',
+  },
+  zh: {
+    picker: '你如何运行 Kept',
+    groups: { terminal: '在终端里', oneClick: '一键' },
+    paths: {
+      compose: { name: 'Docker Compose', hint: '一台机器' },
+      kubernetes: { name: 'Kubernetes', hint: '使用 Helm' },
+      source: { name: '从源码', hint: '你自己的镜像' },
+      'home-assistant': { name: 'Home Assistant', hint: '作为应用' },
+    },
+    need: '你需要什么',
+    see: '你应该看到',
   },
 };

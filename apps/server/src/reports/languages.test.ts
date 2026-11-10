@@ -98,6 +98,7 @@ describe('the PDF words', () => {
       it: [...shared, 'insurance.converted()'],
       uk: shared.filter((k) => !k.startsWith('vehicle.units.')),
       vi: shared,
+      zh: shared,
     };
     for (const l of REPORT_LOCALES) {
       const words = leaves(PDF_WORDS[l]);

@@ -1,0 +1,97 @@
+---
+title: 作为 Home Assistant 应用安装
+description: 从 Home Assistant 应用商店安装 Kept，自带数据库，随 Home Assistant 备份一起备份，并从侧栏打开。
+sidebar:
+  order: 2
+  label: Home Assistant
+---
+
+import HomeAssistantButton from '../../../../components/HomeAssistantButton.astro';
+
+Kept 作为 Home Assistant 应用运行：Kept 和它自己的数据库在一个应用里，运行在 Home Assistant OS 上。无需 Docker Compose，无需设置密码，Home Assistant 的备份也包含它。
+
+## Home Assistant 应用还是普通安装？
+
+同一个 Kept，同一版本，同样功能：物品、位置、地图与关系图、扫描、标签、AI、MCP、导入、Paperless、多人使用。
+
+| | Home Assistant 应用 | [Compose](/zh/install/compose/) 或 [Kubernetes](/zh/install/kubernetes/) |
+|---|---|---|
+| 打开方式 | Home Assistant 侧栏，以及 Kept 自己的地址（8080 端口） | Kept 自己的地址 |
+| 安装、更新 | Home Assistant 应用商店 | `docker compose`、`helm` |
+| 第一个账号 | Home Assistant 管理员无需代码即可设置 | Kept 日志中的设置代码 |
+| 设置 | 应用的 **Configuration** 标签页 | `.env` 或 chart 的 values |
+| 离线、安装手机应用、推送 | 通过 https 的 Kept 自己的地址；不在侧栏 | 通过 https |
+| Passkey、OIDC、Google | Kept 自己的地址（passkey 需 https；Google 需 https 和公开域名） | Kept 的地址 |
+| 备份 | Home Assistant 的备份；通过其[备份位置](https://www.home-assistant.io/common-tasks/general/backups/)离开本机 | Kept 自己的每夜备份：restic 到文件夹、S3 或 SFTP |
+| 照片和文件 | 在应用数据中 | 在磁盘或 S3 上 |
+
+- **应用：** 你已经在运行 Home Assistant OS。
+- **Compose 或 Kubernetes：** 其他一切；或照片与文件放 S3；或 Kept 自己的异地备份。
+
+## 安装
+
+<HomeAssistantButton />
+
+1. **Settings → Apps → Install app → ⋮ → Repositories**，添加 `https://github.com/keptinventory/kept`（或使用上方按钮）。
+2. 找到 **Kept**，然后 **Install**，再 **Start**。
+3. **打开 Web UI**。Kept 在 Home Assistant 内部打开，也会出现在侧栏。
+
+| 你需要 | |
+|---|---|
+| Home Assistant OS | 应用需要 Supervisor：不能是 Home Assistant Container 或 Core。Supervisor 2026.10.4 或更高 |
+| `aarch64` 或 `amd64` | 64 位树莓派 4/5、迷你 PC、VM |
+| 4 GB 内存 | 其他应用很少时 2 GB 也能用；Kept 及其数据库空闲时约用 250–320 MB |
+
+## 首次启动
+
+- 从 Home Assistant 打开 Kept 的 Home Assistant **管理员**无需代码即可设置（Supervisor 2026.10.4 或更高；更早版本需要代码）。
+- 其他人输入应用 **Log** 标签页上的设置代码（`KEPT SETUP CODE: XXX-XXX`）。
+- Kept 有自己的账号。人们只需登录 Kept 一次，同样在 Home Assistant 内部；家庭成员无需成为 Home Assistant 管理员即可从侧栏使用。
+
+## Kept 的地址
+
+在 Home Assistant 内部，Kept 从侧栏打开。手机、印刷二维码标签、邮件链接、集成和 AI 应用需要一个在 Home Assistant 会话之外也能工作的地址，因此该应用也会在 **8080 端口**上对外提供 Kept。**Log** 标签页会写出它，例如 `Kept is at http://homeassistant.local:8080`。
+
+| 选项 | 说明 |
+|---|---|
+| Kept's address | 当 `homeassistant.local` 在你的网络中无法解析，或端口已更改时设置。`http(s)://host[:port]`，无路径。 |
+| https on Kept's port | 用 Home Assistant 来自 `/ssl` 的证书（来自 DuckDNS 或 Let's Encrypt 应用）在该端口上以 https 对外。证书续期后重启应用。 |
+| HSTS | 默认 `on`。当 Home Assistant 本身，或同一主机名上的其他应用，使用普通 http 时设为 `off`：Kept 的 HSTS 覆盖该主机名的所有端口，包括 8123（[HSTS](/zh/install/reverse-proxy/#hsts)）。 |
+| Sign-in length over http | 空：12 小时，不续期。普通 http 上登录持续的天数，1 到 30，使用时续期。开启 https 时无效；代价见[留在你的网络上](/zh/install/home-network/#staying-on-your-network)。 |
+| Extra addresses | 该 Kept 还会响应的其他地址，逗号分隔，如 `http://192.0.2.20:8080`。空：只有一个。会追加到 Home Assistant 自己的地址上，绝不会取代它（[多个地址](/zh/install/home-network/#more-than-one-address)）。 |
+| Outgoing mail | 一个 `smtps://` URL：登录链接、邀请和邮件提醒。 |
+| OIDC、Google | 用你自己的身份提供商或 Google 登录。空：关闭。 |
+| Apprise server | 用于 Apprise 通知渠道的 Apprise API 服务器。空：无。 |
+| Sign-up | `true` 或 `false` 锁定开放或关闭；未设置时由管理员决定。 |
+| Upload limit (MB) | 1 到 2048；默认 25。 |
+
+提供商会把人们送回 Kept 自己的地址，绝不会送回 Home Assistant。需要注册的重定向 URL：OIDC 为 `<Kept's address>/api/v1/auth/callback/oidc`，Google 为 `<Kept's address>/api/v1/auth/callback/google`。登录配置好后，**Log** 标签页会打印它。在 Home Assistant 内部，**Sign in with …** 会在新标签页打开 Kept 的地址。
+
+Google 拒绝 http、`.local` 名称或 IP 地址上的重定向 URL（[Google 的规则](https://developers.google.com/identity/protocols/oauth2/web-server#uri-validation)）：请把 **Kept's address** 设为带公开域名的 https，例如配合 **https on Kept's port** 的 DuckDNS 名称。不适合时 **Log** 标签页会警告。
+
+关闭 8080 端口（Configuration → Network）后只剩侧栏：标签和手机应用将打不开。
+
+## 什么需要 https
+
+| | 普通 http | https |
+|---|---|---|
+| 物品、位置、搜索、标签、从文件上传照片 | 是 | 是 |
+| 从应用配置的 Kept 集成 | 是 | 是 |
+| 个人令牌（脚本）、显示机密、导出 | 否 | 是 |
+| Passkey、摄像头、安装手机应用、推送 | 否 | 是 |
+
+在 Home Assistant 内部，只有 Home Assistant 本身通过 https 对外时，Kept 才算 https。Home Assistant 前面的代理若终止 TLS，必须发送 `X-Forwarded-Proto: https`，否则 Kept 会看到普通 http。Passkey 属于 Kept 自己的地址：在那里用它登录。更多见[家庭网络](/zh/install/home-network/)。
+
+## 备份与更新
+
+- **备份：** Home Assistant 的备份包含 Kept：数据库导出、照片、文件和 Kept 的密钥。保持 Home Assistant 的备份加密开启。恢复备份会带回 Kept；恢复后的首次启动会稍慢一些。
+- **Kept 停止时做的备份**持有的是 Kept 上次干净停止时写的导出：Home Assistant 只会向运行中的应用要最新导出。崩溃后，请先启动 Kept 再备份。
+- **Kept 自己的备份**不在应用中：它们需要数据库所有者的登录，应用会对其运行中的服务器隐藏它。Admin → Backups 会说明并链接到 Home Assistant 的备份。
+- **离开本机：** 在 Home Assistant 的备份设置中添加网络共享或云位置（[Home Assistant 的备份](https://www.home-assistant.io/common-tasks/general/backups/)）。
+- **更新：** 应用的版本就是 Kept 的版本。更新会保留 Kept 的数据，并在启动时升级其数据库。在 Home Assistant 的更新对话框中打开 **Keep backup of the last version**：应用中 Kept 自己的升级前快照是关闭的。
+
+## 集成
+
+该应用运行 Kept；单独的集成把它带入 Home Assistant（[应用与集成](/zh/users/home-assistant/#the-app-and-the-integration)）。
+
+用 HACS 安装 [Kept 集成](/zh/users/home-assistant/)并重启 Home Assistant：Kept 会以已发现的形式出现在 **Settings → Devices & services**。添加它，然后在 Kept 中允许它（**Settings → Connections**）。无需复制令牌，也无需 https：Kept 和 Home Assistant 通过 Home Assistant 的内部网络通信（[从应用配置](/zh/users/home-assistant/#set-up-from-the-app)）。

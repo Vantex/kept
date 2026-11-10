@@ -4,7 +4,7 @@ import type { Digits } from '@kept/shared';
 // (mail/messages.ts). What each says lives in words/<locale>.ts; this file holds how each one
 // writes what isn't a word: its Intl locale, digits, direction and punctuation.
 
-export const REPORT_LOCALES = ['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi'] as const;
+export const REPORT_LOCALES = ['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi', 'zh'] as const;
 export type ReportLocale = (typeof REPORT_LOCALES)[number];
 
 /** The report language for a BCP 47 tag (`ar-EG` → `ar`, `fr-CA` → `fr`); English for anything

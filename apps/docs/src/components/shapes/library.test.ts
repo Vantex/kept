@@ -37,7 +37,7 @@ describe('the shape library (#171)', () => {
 
   it('lists the words in each language', () => {
     const ups = all.find((s) => s.key === 'ups');
-    expect(ups?.words.map((w) => w.lang)).toEqual(['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi']);
+    expect(ups?.words.map((w) => w.lang)).toEqual(['ar', 'de', 'en', 'es', 'fr', 'it', 'uk', 'vi', 'zh']);
     expect(ups?.words.find((w) => w.lang === 'de')?.words).toContain('usv');
     // A language with no words of its own is left out, not shown empty.
     for (const s of all) for (const w of s.words) expect(w.words.length, s.key).toBeGreaterThan(0);

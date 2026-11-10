@@ -10,4 +10,5 @@ export const locales = {
   it: { label: 'Italiano', lang: 'it' },
   uk: { label: 'Українська', lang: 'uk' },
   vi: { label: 'Tiếng Việt', lang: 'vi' },
+  zh: { label: '简体中文', lang: 'zh' },
 };

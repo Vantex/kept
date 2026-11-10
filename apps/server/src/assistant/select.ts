@@ -37,7 +37,7 @@ export const CORE_TOOLS: readonly ToolName[] = Object.freeze([
   'mark_seen',
 ]);
 
-type Lang = 'ar' | 'de' | 'en' | 'es' | 'fr' | 'it' | 'uk' | 'vi';
+type Lang = 'ar' | 'de' | 'en' | 'es' | 'fr' | 'it' | 'uk' | 'vi' | 'zh';
 type Topic = { tools: readonly ToolName[]; words: Readonly<Record<Lang, string>> };
 
 /** Keywords per topic and language, `|` between them, written plainly: `normalise` (or, for
@@ -60,6 +60,7 @@ const TOPICS: Readonly<Record<string, Topic>> = {
       it: 'cronologia|storia|successo|chi ha',
       uk: 'історі|сталос|трапил|хто перемі|хто перест|хто перен|хто пересун|хто змін|хто дода|коли$|востаннє|останній раз|минулого разу',
       vi: 'lịch sử|đã xảy ra|chuyện gì|ai đã|ai chuyển|ai sửa|ai thêm|khi nào|lần cuối',
+      zh: '历史|发生了|谁移动|谁改|谁添加|什么时候|上次',
     },
   },
   documents: {
@@ -73,6 +74,7 @@ const TOPICS: Readonly<Record<string, Topic>> = {
       it: 'ricevuta|scontrino|fattura|manuale|documento|istruzioni',
       uk: 'квитанці|чек$|чека$|чеку$|чеки$|чеків$|чеком$|рахунок|рахунк|фактур|інструкці|посібник|керівництв|документ|папери|паперів|пдф',
       vi: 'hóa đơn|hoá đơn|biên lai|tài liệu|giấy tờ|chứng từ|hướng dẫn sử dụng|sách hướng dẫn',
+      zh: '收据|发票|说明书|手册|文档|纸质|凭证|保修卡',
     },
   },
   // #313: changing a place (its name, kind, parent, order) and turning places into boxes.
@@ -88,6 +90,7 @@ const TOPICS: Readonly<Record<string, Topic>> = {
       it: 'stanza|camera da letto|bagno|cucina|corridoio|soffitta|cantina|scaffal|cassetto|armadio|crea|collegamento|rinomin|in scatol|ordine|girare|giralo|girala|gira il|gira la|gira lo|ruotare|ruotalo|ruotala|di lato|sul fianco|mobil|libreria',
       uk: 'кімната|кімнати|кімнату|кімнаті|кімнатою|кімнат$|спальня|спальню|спальні|спальнею|спалень|ванна|ванну|ванні|ванною|кухня|кухні|кухню|кухнею|вітальня|вітальні|вітальню|вітальнею|коридор|передпок|балкон|лоджі|горищ|підвал|льох|комор|полиц|поличк|поличц|шухляд|шафа|шафи|шафу|шафі|шафою|шаф$|шафк|шафц|комод|стелаж|гардероб|мебл|зона|зони|зону|зоні|зоною|місце$|місця$|місці$|місцем$|місць$|місцях$|приміщен|створ|фото$|фотограф|фотк|фоток|сфотограф|знімок|знімк|зображен|картинк|картинц|скану|відскан|посилан|лінк$|лінка$|лінку$|лінки$|прикріп|переймену|на коробк|на ящик|у коробк|в коробк|у ящик|в ящик|порядок$|власному порядку|упорядк|впорядк|перемісти вгору|перемісти вниз|перемісти вище|перемісти нижче|посунь вище|посунь нижче|розверн|розверт|оберн|оберт|на бік|набік|на боку|вертикально$|сторч|габарит',
       vi: 'vị trí|phòng|kệ|giá sách|tủ quần áo|tủ sách|tủ đồ|ngăn kéo|nội thất|tạo|chụp|chụp ảnh|hình ảnh|quét|liên kết|đính kèm|đổi tên|thành hộp|thứ tự|xoay|nằm nghiêng|dựng đứng',
+      zh: '位置|房间|卧室|浴室|厨房|走廊|阳台|阁楼|地下室|架子|抽屉|柜子|橱柜|区域|创建|照片|图片|扫描|链接|附件|重命名|装箱|自定义排序|上移|下移|旋转|侧放|立起来|家具|书柜|书架|衣柜|尺寸',
     },
   },
   schedules: {
@@ -101,6 +104,7 @@ const TOPICS: Readonly<Record<string, Topic>> = {
       it: 'scadenz|scade|promemoria|manutenzion|presto|prossim|fatto|rimand|posticip|compito',
       uk: 'термін$|терміну$|терміни$|терміном$|простроч|розклад$|розкладу$|розкладі$|розкладом$|графік$|графіку$|графіки$|графіком$|нагад|обслуговуван|найближч|наступн|скоро$|незабаром|невдовзі|сплив|закінчується|закінчиться|зроблено|викона|готово$|відклад|відклас|відстроч|пізніше|завдан|задач|цього тижня|цей тиждень|цьому тижні|цього місяця|цей місяць|цьому місяці',
       vi: 'lịch trình|lịch bảo dưỡng|lịch hẹn|bảo dưỡng|bảo trì|đến hạn|quá hạn|nhắc|sắp tới|hết hạn|tiếp theo|xong|hoãn|dời|để sau|tác vụ|việc cần làm|tuần này|tháng này',
+      zh: '到期|逾期|计划|提醒|保养|即将|很快|过期|下一个|完成|稍后|推迟|任务|本周|本月',
     },
   },
   lending: {
@@ -114,6 +118,7 @@ const TOPICS: Readonly<Record<string, Topic>> = {
       it: 'prest|restitu|ridat|riavut|tornat|consegn|affidat',
       uk: 'позич|запозич|одолж|борг|дав$|дала$|дали$|віддав|віддала$|віддали$|віддай|передав$|передала|передали|передати$|передай|передано|поверн|верну|назад$|забра|у кого|в кого|хто взяв|хто взяла|хто має|взяв у$|взяла у$|взяли у$|взяв в$|взяла в$|взяли в$',
       vi: 'cho mượn|mượn|trả lại|đã trả|trả cho|trả về|lấy lại|nhận lại|ai đang giữ|ai giữ|đang giữ|bàn giao|giao cho',
+      zh: '借出|借入|借用|归还|归还给|拿回|谁拿着|交接|移交',
     },
   },
   warranties: {
@@ -127,6 +132,7 @@ const TOPICS: Readonly<Record<string, Topic>> = {
       it: 'garanzia|reclamo|riparazion|rotto|guasto',
       uk: 'гаранті|рекламаці|претензі|страхов|ремонт|відремонт|полагод|лагод|злама|полама|розбит|розбив|розбил|несправн|дефект|не працює',
       vi: 'bảo hành|yêu cầu bảo hành|sửa chữa|đi sửa|hỏng|hư|đổi trả',
+      zh: '保修|质保|索赔|维修|坏了|故障|退换',
     },
   },
   vehicles: {
@@ -140,6 +146,7 @@ const TOPICS: Readonly<Record<string, Topic>> = {
       it: 'macchina|veicolo|tagliando|olio|gomm|chilometr|contachilometri|benzina|carburante|gasolio|pieno|lettura|contatore',
       uk: 'автомобіл|авто$|автівк|автівц|транспортн|моя машин|мою машин|моєї машин|моїй машин|наша машин|нашу машин|нашої машин|на машині$|у машині$|в машині$|мотоцикл|скутер|мопед|велосипед|байк$|сервіс|техогляд|техобслугов|заміна масла|заміну масла|заміни масла|замінив масло|замінила масло|замінили масло|моторн|мастил|шина|шини|шину|шині|шин$|покришк|покришок|шиномонтаж|пробіг|одометр|спідометр|кілометр|км$|миль$|пальне|пального|пальним|пальному|бензин|бензобак|дизел|солярк|заправ|повний бак|лічильник|показання|показань|показник|мотогодин|електроенерг|кіловат|квт',
       vi: 'xe|ô tô|phương tiện|bảo dưỡng|thay dầu|dầu|nhớt|lốp|số km|cây số|công tơ|công-tơ-mét|nhiên liệu|xăng|đổ xăng|đổ đầy|chỉ số|đồng hồ đo|đồng hồ điện|điện năng|kwh',
+      zh: '汽车|车辆|摩托|保养|换机油|机油|轮胎|里程|里程表|加油|燃油|汽油|柴油|读数|仪表|小时|电量',
     },
   },
   // #209: the tags themselves; tagging one thing is update_thing's, in the core.
@@ -154,6 +161,7 @@ const TOPICS: Readonly<Record<string, Topic>> = {
       it: 'tag|etichetta',
       uk: 'тег|протег|мітк|мітц|міток|ярлик|ярлич',
       vi: 'gắn thẻ|bỏ thẻ|các thẻ|thẻ nào|thẻ này',
+      zh: '标签|打标签|去标签|标记',
     },
   },
   stock: {
@@ -167,6 +175,7 @@ const TOPICS: Readonly<Record<string, Topic>> = {
       it: 'scorta|scorte|rimast|esaurit|consumabil|usat|finit',
       uk: 'запас$|запасу$|запаси$|запасів$|запасом$|запасах$|припас|залишилос|залишилас|залишилис|залишився|залишок|залишк|лишилос|лишилас|лишилис|лишився|закінч|скінч|вичерп|більше немає|немає більше|використав|використала|використали|використано|поповн|докуп|витратн|кількіст|кількост',
       vi: 'tồn kho|còn lại|còn bao nhiêu|còn mấy|sắp hết|dùng hết|hết rồi|vật tư|tiêu hao|bổ sung|nạp thêm|mua thêm|số lượng',
+      zh: '库存|用完|用尽|用光|剩余|补充|补货|耗材|供应|数量',
     },
   },
 };
@@ -199,12 +208,13 @@ const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 const atStart = (w: string) =>
   w.endsWith('$') ? `${escapeRe(w.slice(0, -1))}(?![\\p{L}\\p{N}])` : escapeRe(w);
 
-/** Two patterns per topic: Latin and Cyrillic keywords at a word's start and Arabic ones anywhere,
- * on `normalise`d text; Vietnamese ones as whole words, on `normaliseVi`d text. */
+/** Two patterns per topic: Latin and Cyrillic keywords at a word's start, Arabic and Chinese ones
+ * anywhere (neither script uses spaces between words), on `normalise`d text; Vietnamese ones as
+ * whole words, on `normaliseVi`d text. */
 const PATTERNS: readonly [Topic, RegExp, RegExp][] = Object.values(TOPICS).map((topic) => {
   const list = (langs: Lang[], fold: (s: string) => string, source = escapeRe) =>
     langs.flatMap((l) => topic.words[l].split('|')).map((w) => source(fold(w)));
-  const re = `(?<![\\p{L}\\p{N}])(?:${list(['de', 'en', 'es', 'fr', 'it', 'uk'], normalise, atStart).join('|')})|${list(['ar'], normalise).join('|')}`;
+  const re = `(?<![\\p{L}\\p{N}])(?:${list(['de', 'en', 'es', 'fr', 'it', 'uk'], normalise, atStart).join('|')})|${list(['ar', 'zh'], normalise).join('|')}`;
   const vi = `(?<![\\p{L}\\p{N}])(?:${list(['vi'], normaliseVi).join('|')})(?![\\p{L}\\p{N}])`;
   return [topic, new RegExp(re, 'u'), new RegExp(vi, 'u')];
 });

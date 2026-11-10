@@ -550,6 +550,51 @@ describe('searchShapes', () => {
       for (const w of ws) expect(all.has(w), `${lang}: ${w}`).toBe(true);
   });
 
+  it('finds a shape by its Chinese words, and as a name', () => {
+    expect(searchShapes('冰箱', {}, 'zh')[0]).toBe('fridge');
+    expect(searchShapes('沙发', {}, 'zh')[0]).toBe('sofa');
+    expect(searchShapes('床', {}, 'zh')).toContain('bed');
+    expect(searchShapes('餐桌', {}, 'zh')[0]).toBe('dining');
+    expect(searchShapes('洗衣机', {}, 'zh')[0]).toBe('washer');
+    expect(searchShapes('电视', {}, 'zh')).toContain('tv');
+    expect(searchShapes('书架', {}, 'zh')).toContain('bookshelf');
+    expect(searchShapes('收纳箱', {}, 'zh')[0]).toBe('box');
+    expect(searchShapes('办公椅', {}, 'zh')[0]).toBe('chair');
+    // A whole Chinese word still finds its shape for a non-Chinese reader.
+    expect(searchShapes('冰箱', {}, 'en')[0]).toBe('fridge');
+    expect(searchShapes('沙发', {}, 'en')[0]).toBe('sofa');
+    // Partial Han starts count for a Chinese reader; for others only when nothing else matches.
+    expect(searchShapes('冰', {}, 'zh')).toContain('fridge');
+    expect(searchShapes('冰', {}, 'en')).toContain('fridge');
+    // A Han start that collides with English is not forced onto the Chinese shape alone.
+    expect(searchShapes('电', {}, 'zh')).toContain('tv');
+    expect(searchShapes('电视', {}, 'en')).toContain('tv');
+  });
+
+  it('gives a clear Chinese name its shape by itself', () => {
+    for (const [name, model] of [
+      ['冰箱', 'fridge'],
+      ['沙发', 'sofa'],
+      ['洗衣机', 'washer'],
+      ['书架', 'bookshelf'],
+      ['办公椅', 'chair'],
+    ] as const) {
+      const s = suggestShapes({ name });
+      expect(s.shapes[0]).toMatchObject({ model, from: 'name' });
+      expect(s.confident, name).toBe(true);
+    }
+  });
+
+  it('lists Chinese words under zh, as written', () => {
+    expect(shapeWordsByLang('fridge').zh).toContain('冰箱');
+    expect(shapeWordsByLang('sofa').zh).toContain('沙发');
+    expect(shapeWordsByLang('bed').zh).toContain('床');
+    expect(shapeWordsByLang('washer').zh).toContain('洗衣机');
+    expect(shapeWordsByLang('fridge').en).not.toContain('冰箱');
+    for (const k of ['fridge', 'sofa', 'bed', 'washer', 'tv', 'box', 'chair'] as const)
+      expect(shapeWordsByLang(k).zh.length, k).toBeGreaterThan(0);
+  });
+
   it('ranks word starts and synonyms in each language', () => {
     // Arabic, English, French, German, Italian, each by its own word's start.
     expect(searchShapes('keyb', names)[0]).toBe('keyboard');

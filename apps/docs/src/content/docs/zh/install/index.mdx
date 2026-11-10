@@ -1,0 +1,244 @@
+---
+title: 安装 Kept
+description: 选择你运行 Kept 的方式——Docker Compose、Kubernetes、从源码，或作为 Home Assistant 应用——然后按该路径的步骤操作，每步后都有检查。
+sidebar:
+  order: 0
+  label: 从这里开始
+---
+
+import { Aside, Code, Steps } from '@astrojs/starlight/components';
+import HomeAssistantButton from '../../../../components/HomeAssistantButton.astro';
+import InstallPath from '../../../../components/install/InstallPath.astro';
+import InstallPicker from '../../../../components/install/InstallPicker.astro';
+import Need from '../../../../components/install/Need.astro';
+import See from '../../../../components/install/See.astro';
+import { commands, printed } from '../../../../components/install/commands';
+
+选择你运行 Kept 的方式，然后按步骤操作。本节为每条路径提供了完整指南；链接在各路径步骤末尾。
+
+<InstallPicker>
+<InstallPath id="compose">
+
+<Need>
+带 Compose 插件的 Docker，以及一个终端。已在 1 GB 内存和 1 个 CPU 核心上测试；Kept 及其数据库大约占用其中 200–400 MB（[测试详情](/zh/install/hardware/)）。
+</Need>
+
+<Steps>
+
+1. **下载 `compose.yaml`** 到单独的文件夹：Kept 和它的数据库在一个文件里，无需克隆仓库，也无需设置密码。
+
+   <Code code={commands.compose.download} lang="sh" />
+
+2. **编写 `.env`。** `init` 会询问你将打开 Kept 的地址，例如 `http://kept.home.arpa:8080`。请用域名而非 IP 地址：印刷标签会带上它。
+
+   <Code code={commands.compose.init} lang="sh" />
+
+   <See>
+   <Code code={printed.init} lang="text" />
+   </See>
+
+3. **启动。** 数据库先启动，两个一次性服务创建登录并应用迁移，然后 Kept 在 8080 端口启动。
+
+   <Code code={commands.compose.start} lang="sh" />
+
+   <See>
+   打开该地址，看到 Kept 的 **Enter the setup code** 页面。
+   </See>
+
+4. **完成设置。** 输入 `init` 显示的代码并创建第一个账号：它将成为实例管理员。
+
+5. **保管好密钥。** 打印恢复套件并保存在本服务器之外，例如密码管理器。只有有了这些密钥，备份才能恢复机密值。
+
+   <Code code={commands.compose.recoveryKit} lang="sh" />
+
+   <See>
+   以 `KEPT RECOVERY KIT` 开头的文本。
+   </See>
+
+</Steps>
+
+<Aside title="Windows">
+在 PowerShell 中，步骤里写 `curl` 的地方请用 `curl.exe`，并把 `mkdir kept` 和 `cd kept` 分开逐条执行。或者全部在 WSL 中运行。
+</Aside>
+
+完整步骤，含用于 HTTPS 的 Caddy 和本地 AI 的 Ollama：
+[使用 Docker Compose 安装](/zh/install/compose/)。
+
+</InstallPath>
+<InstallPath id="kubernetes">
+
+<Aside type="caution" title="尚未在真实集群上测试">
+该 chart 在每次检查中都能渲染和校验，每个发布也会随镜像一起推送，但尚未在真实集群上安装过。请把首次安装当作一次测试。
+</Aside>
+
+<Need>
+一个 Kubernetes 集群（例如 k3s）、`kubectl` 和 `helm`，以及一个终端。chart 为 Kept 申请 384 MiB 内存（最多 1 GiB），为其内置 Postgres 申请 256 MiB（最多 512 MiB）。
+</Need>
+
+<Steps>
+
+1. **创建 secrets。** chart 从不写入 secret：数据库登录和内置 Postgres 超级用户的密码，来自你先创建的 secrets。
+
+   <Code code={commands.kubernetes.secrets} lang="sh" />
+
+2. **安装 chart**，将 `publicUrl` 设为人们将打开的地址。首次安装不要加 `--wait`：迁移在其之后运行。
+
+   <Code code={commands.kubernetes.install} lang="sh" />
+
+   <See>
+   Helm 打印的 notes 的第一行：
+
+   <Code code={printed.helmInstalled} lang="text" />
+   </See>
+
+3. **获取设置代码。** Kept 只在首次启动时打印一次。
+
+   <Code code={commands.kubernetes.setupCode} lang="sh" />
+
+   <See>
+   <Code code={printed.setupCode} lang="text" />
+   </See>
+
+   打开该地址，输入代码并创建第一个账号：它将成为实例管理员。
+
+4. **保管好密钥。** 保存恢复套件，并放在集群之外。
+
+   <Code code={commands.kubernetes.recoveryKit} lang="sh" />
+
+   <See>
+   `kept-recovery-kit.txt`，以 `KEPT RECOVERY KIT` 开头。
+   </See>
+
+5. **检查。** `helm test` 会向运行中的 Kept 请求 `/readyz` 和 `/version`。
+
+   <Code code={commands.kubernetes.test} lang="sh" />
+
+</Steps>
+
+在 Windows 上，请在 WSL 中运行这些命令。配置值、可选 secrets 以及 chart 运行的内容：
+[使用 Helm 在 Kubernetes 上安装](/zh/install/kubernetes/)。
+
+</InstallPath>
+<InstallPath id="source">
+
+<Need>
+Git、带 Compose 插件的 Docker，以及一个终端。Kept 的运行方式与 Docker Compose 相同，使用你自己的镜像。
+</Need>
+
+<Steps>
+
+1. **获取代码。**
+
+   <Code code={commands.source.clone} lang="sh" />
+
+2. **构建镜像**，标签为 `kept:local`。
+
+   <Code code={commands.source.build} lang="sh" />
+
+3. **编写 `.env`。** 将 `compose.yaml` 指向你的镜像，然后运行 `init`。它会找到 `.env`，询问是否更新（回答 `Y`），然后询问你将打开 Kept 的地址。
+
+   <Code code={commands.source.init} lang="sh" />
+
+   <See>
+   <Code code={printed.initUpdated} lang="text" />
+   </See>
+
+4. **启动**，并打开该地址。
+
+   <Code code={commands.compose.start} lang="sh" />
+
+   <See>
+   Kept 的 **Enter the setup code** 页面。输入 `init` 显示的代码并创建第一个账号：它将成为实例管理员。
+   </See>
+
+5. **保管好密钥。** 打印恢复套件并保存在本服务器之外。
+
+   <Code code={commands.compose.recoveryKit} lang="sh" />
+
+   <See>
+   以 `KEPT RECOVERY KIT` 开头的文本。
+   </See>
+
+</Steps>
+
+在 Windows 上，请在 WSL 中运行。与发布版相同的 `compose.yaml`，完整说明：
+[使用 Docker Compose 安装](/zh/install/compose/)。
+
+</InstallPath>
+<InstallPath id="home-assistant">
+
+<Need>
+Home Assistant OS，Supervisor 2026.10.4 或更高：应用需要 Supervisor，因此不能是 Home Assistant Container 或 Core。`aarch64` 或 `amd64` 机器，例如 64 位树莓派 4/5 或迷你 PC。4 GB 内存；其他应用很少时 2 GB 也能用。无需终端。
+</Need>
+
+<Steps>
+
+1. **添加 Kept 的仓库。** 按钮会打开已填好的 Home Assistant。或进入 **Settings → Apps → Install app → ⋮ → Repositories** 并添加 `https://github.com/keptinventory/kept`。
+
+   <HomeAssistantButton />
+
+2. **安装，然后启动。** 在应用商店中找到 **Kept**，然后 **Install**，再 **Start**。
+
+   <See>
+   在应用的 **Log** 标签页上，Kept 自己的地址和设置代码：
+
+   <Code code={printed.homeAssistant} lang="text" />
+
+   <Code code={printed.setupCode} lang="text" />
+   </See>
+
+3. **打开 Web UI。** Kept 在 Home Assistant 内部打开，也会出现在侧栏。
+
+   <See>
+   Home Assistant 管理员看到 **Create the first account**，无需代码。其他人看到 **Enter the setup code**，并输入 **Log** 标签页上的代码。
+   </See>
+
+</Steps>
+
+Kept 的地址、https 和备份：[作为 Home Assistant 应用安装](/zh/install/home-assistant/)。
+
+</InstallPath>
+</InstallPicker>
+
+## 有问题？
+
+- **容器不断重启。** 读它的日志：`docker compose logs kept`。Kept 在启动前检查配置，并以一行说明第一个问题后停止，例如 `kept: invalid environment: KEPT_PUBLIC_URL`（运行 `docker compose run --rm init`）。若 `docker compose up -d` 停在 `bootstrap`，`docker compose logs bootstrap` 会说明原因。内存不足 1 GB 时，备份可能耗尽内存，Docker 会重启 Kept（[需求详情](/zh/install/hardware/)）。
+  [更多](/zh/admin/troubleshooting/#kept-exits-at-start-with-kept-invalid-environment--or-another-kept-line)
+- **端口被占用。** Kept 在主机上占用 8080 端口。用空闲端口上的 `http://` 地址再次运行 `docker compose run --rm init`：它会把地址和端口（`KEPT_HTTP_PORT`）写入 `.env`。然后 `docker compose up -d`。在 Home Assistant 应用中，在 **Configuration → Network** 下更改端口，并相应设置 **Kept's address**。
+  [更多](/zh/install/compose/#1-write-env)
+- **权限被拒绝。** Kept 以用户 10001 运行，根文件系统只读，因此你挂载进去的文件夹（例如备份目录）必须归 uid 10001 所有。`init` 把 `.env` 写入你运行它的文件夹：请在你拥有的文件夹中运行。
+  [更多](/zh/admin/troubleshooting/#backups-dont-run-or-the-backup-stale-alert-fires)
+- **其他设备打不开。** `localhost` 只在本机打开。使用其他设备能解析到的名称（在路由器 DNS 或各设备 hosts 文件中设置），并用它再次运行 `init`。若 Kept 提示 "This Kept is set up for *address*. Open it there."，请恰好用该地址打开，或在 `KEPT_EXTRA_ADDRESSES` 中列出另一个地址（[多个地址](/zh/install/home-network/#more-than-one-address)）。
+  [更多](/zh/admin/troubleshooting/#this-kept-is-set-up-for--or-the-request-did-not-come-from-this-site)
+- **反向代理返回 502。** Kept 在 8080 端口讲普通 HTTP：把代理指向该端口的 `http://`，而不是 `https://`（[在反向代理之后](/zh/install/reverse-proxy/)）。只有 `migrate` 完成后 Kept 才会启动；若失败，`docker compose logs migrate` 会说明原因。
+  [更多](/zh/admin/troubleshooting/#kept-doesnt-start-after-an-upgrade-and-migrate-exited-with-an-error)
+
+其他一切：[故障排查](/zh/admin/troubleshooting/)。
+
+## 继续深入
+
+- **HTTPS：** 摄像头、安装应用、推送和定位需要它。
+  [为 Kept 启用 HTTPS](/zh/install/https/)，或[家庭网络上的 Kept](/zh/install/home-network/) 了解无 HTTPS 时哪些功能可用。
+- **助手：** 用自己的 AI 提供商用大白话提问；没有 AI 也能用 Kept。
+  [AI 提供商](/zh/users/ai-providers/)，以及[连接 AI 客户端（MCP）](/zh/users/mcp-clients/)。
+- **备份：** 每夜加密备份到目录、S3 或 SFTP。[备份](/zh/admin/backups/)。
+- **邮件：** 通过邮件发送密码重置、邀请和提醒，使用 `KEPT_SMTP_URL` 和 `KEPT_SMTP_FROM`。[邮件、推送与日历订阅](/zh/admin/notifications/)。
+- **Home Assistant：** 集成把待办事项带入仪表板和自动化。
+  [Home Assistant](/zh/users/home-assistant/)。
+
+## 更新
+
+- **Docker Compose：** 在 `.env` 中把 `KEPT_IMAGE` 设为新版本，然后：
+
+  <Code code={commands.compose.update} lang="sh" />
+
+  若发布变更了 `compose.yaml`，会在说明中写明：用其文件覆盖你的文件。
+- **从源码：**
+
+  <Code code={commands.source.update} lang="sh" />
+
+- **Kubernetes：** 每个发布会推送同版本 chart，迁移在 Job 中运行，先于新版本对外服务。
+- **Home Assistant：** Home Assistant 会提供更新。在其更新对话框中打开 **Keep backup of the last version**。
+
+配置了备份目标后，Kept 会在迁移前做一次快照。
+[升级与回滚](/zh/admin/upgrades/)。

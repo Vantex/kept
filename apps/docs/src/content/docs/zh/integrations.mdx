@@ -1,0 +1,17 @@
+---
+title: '集成：导入、通知、登录与 AI'
+sidebar:
+  label: 集成
+description: 'Kept 面向自托管 homelab 的集成：Homebox 和 LubeLogger 导入、CSV、邮件接入、ntfy、Telegram、Apprise、OIDC、OpenAI、Anthropic、Ollama、MCP。'
+---
+
+import IntegrationList from '../../../components/landing/IntegrationList.astro';
+import { Image } from 'astro:assets';
+import integrations from '../../../assets/landing/kept-integrations.webp';
+
+Kept 接收什么、通知谁、人们如何登录、以及它与什么对话。
+每项各有一条，并附上配置页面。这里列出的内容今天都已在 Kept 中。
+
+<Image src={integrations} alt="Kept 居中，与 Home Assistant 和 Paperless-ngx 双向连接；从 Homebox、LubeLogger 和电子表格导入；通过 ntfy、Telegram、Slack、Discord、Matrix、Signal、邮件和 webhook 通知；供 Claude 和 ChatGPT 使用的 Kept MCP 服务器；来自 OpenAI、Anthropic、Gemini、Groq、OpenRouter 和 Ollama 的 AI 模型" widths={[800, 1600]} sizes="(min-width: 50rem) 48rem, 100vw" loading="eager" />
+
+<IntegrationList />
