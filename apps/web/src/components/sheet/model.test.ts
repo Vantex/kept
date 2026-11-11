@@ -76,6 +76,7 @@ describe('columns', () => {
       visibleColumns(DEFAULT_COLUMNS, g).map((c) => c.id);
     expect(ids({ money: true, warranties: true })).toEqual([...DEFAULT_COLUMNS]);
     expect(ids({ money: false, warranties: true })).not.toContain('price');
+    expect(ids({ money: false, warranties: true })).not.toContain('dailyPrice');
     expect(ids({ money: true, warranties: false })).not.toContain('warranty');
     expect(visibleColumns(['serial'], { money: true, warranties: true }).map((c) => c.id)).toEqual([
       'name',

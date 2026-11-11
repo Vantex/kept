@@ -20,14 +20,18 @@ beforeEach(async () => {
 });
 
 describe('reference data', () => {
-  it('seeds the five supported currencies', async () => {
+  it('seeds the supported currencies', async () => {
     const { rows } = await asOwner(db, (c) =>
       c.query(
         'SELECT code, minor_units, enabled FROM public.currencies WHERE enabled ORDER BY code',
       ),
     );
     expect(rows).toEqual(
-      ['CAD', 'EGP', 'EUR', 'GBP', 'USD'].map((code) => ({ code, minor_units: 2, enabled: true })),
+      ['CAD', 'CNY', 'EGP', 'EUR', 'GBP', 'USD'].map((code) => ({
+        code,
+        minor_units: 2,
+        enabled: true,
+      })),
     );
   });
 

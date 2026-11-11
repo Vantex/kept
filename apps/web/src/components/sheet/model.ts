@@ -27,6 +27,7 @@ export type ColumnId =
   | 'tags'
   | 'purchasedOn'
   | 'price'
+  | 'dailyPrice'
   | 'warranty'
   | 'condition'
   | 'colour'
@@ -96,6 +97,8 @@ export const COLUMNS: readonly ColumnDef[] = [
   { id: 'tags', edit: 'tags', field: 'tagIds', width: 200 },
   { id: 'purchasedOn', width: 128 },
   { id: 'price', width: 128, money: true },
+  // Read-only: the price over the days since it was bought (not editable, not server-sorted).
+  { id: 'dailyPrice', width: 132, money: true },
   { id: 'warranty', width: 140, module: 'warranties' },
   { id: 'condition', edit: 'condition', field: 'condition', width: 120 },
   { id: 'colour', edit: 'text', field: 'colour', width: 120, max: 60 },
@@ -123,6 +126,7 @@ export const DEFAULT_COLUMNS: readonly ColumnId[] = [
   'tags',
   'purchasedOn',
   'price',
+  'dailyPrice',
   'warranty',
 ];
 

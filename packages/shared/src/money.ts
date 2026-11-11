@@ -261,6 +261,17 @@ export type Converted = { amount: string } | { missing: { from: string; to: stri
 /** Decimals a converted amount keeps: the stored money scale, numeric(16,4). */
 const CONVERTED_DECIMALS = 4;
 
+/**
+ * The purchase price spread evenly over `days` of ownership: a daily average cost.
+ * `days` is clamped to at least 1 (bought today still has a day). Exact decimal division,
+ * rounded half away from zero to 4 decimals; display rounds to the currency's minor units.
+ * Example: 100 over 10 days → "10".
+ */
+export function dailyAverage(amount: string, days: number): string {
+  const n = BigInt(Math.max(1, Math.trunc(days)));
+  return fromScaled(roundDiv(toScaled(amount), n), CONVERTED_DECIMALS);
+}
+
 function newestOn(rates: readonly FxRate[], from: string, to: string, on: string): FxRate | null {
   let best: FxRate | null = null;
   for (const r of rates) {

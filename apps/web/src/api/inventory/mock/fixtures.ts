@@ -912,6 +912,7 @@ export function inventoryFixtures(): InventoryState {
       { code: 'EUR', name: 'Euro', minorUnits: 2, symbol: '€', enabled: true },
       { code: 'GBP', name: 'British pound', minorUnits: 2, symbol: '£', enabled: true },
       { code: 'CAD', name: 'Canadian dollar', minorUnits: 2, symbol: 'CA$', enabled: true },
+      { code: 'CNY', name: 'Chinese yuan', minorUnits: 2, symbol: '¥', enabled: true },
       { code: 'SAR', name: 'Saudi riyal', minorUnits: 2, symbol: 'ر.س.', enabled: false },
       { code: 'JPY', name: 'Japanese yen', minorUnits: 0, symbol: '¥', enabled: false },
     ],

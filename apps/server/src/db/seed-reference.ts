@@ -30,10 +30,10 @@ function currencySymbol(code: string): string {
 }
 
 /**
- * Every ISO 4217 currency (D168). A new row starts enabled only when it is one of the five
- * defaults (D136); an existing row keeps its `enabled` and its `symbol` (0004 chose the five's
- * symbols by hand, e.g. `E£`, never a bare `£` for EGP), and gets the current name and minor
- * units. `IS DISTINCT FROM` keeps a re-run from rewriting unchanged rows.
+ * Every ISO 4217 currency (D168). A new row starts enabled only when it is one of the
+ * defaults (D136 + CNY); an existing row keeps its `enabled` and its `symbol` (0004 chose the
+ * defaults' symbols by hand, e.g. `E£`, never a bare `£` for EGP), and gets the current name and
+ * minor units. `IS DISTINCT FROM` keeps a re-run from rewriting unchanged rows.
  */
 export async function seedCurrencies(client: pg.ClientBase): Promise<void> {
   const rows = ISO_CURRENCIES.map((c) => ({

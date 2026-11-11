@@ -45,8 +45,19 @@ describe('mapCurrencyMark (the currency rule)', () => {
     ['SAR', { languages: ['ar'], enabled: ['EGP', 'SAR'] }, { code: 'SAR' }],
     ['SAR', plain, null],
     ['XYZ', { languages: ['en'], enabled: ['XYZ'] }, null],
+    // Chinese yuan: ISO code, RMB, 人民币, and ¥ with a Chinese hint (or only CNY enabled).
+    ['CNY', plain, { code: 'CNY' }],
+    ['cny', plain, { code: 'CNY' }],
+    ['RMB', plain, { code: 'CNY' }],
+    ['人民币', plain, { code: 'CNY' }],
+    ['¥', { languages: ['zh'] }, { code: 'CNY' }],
+    ['¥', { languages: ['en'], vendorCountry: 'CN' }, { code: 'CNY' }],
+    ['¥', plain, { code: 'CNY' }], // defaults enable CNY, not JPY
+    ['¥', { languages: ['ja'], vendorCountry: 'JP' }, null], // JPY not enabled by default
+    ['¥', { languages: ['ja'], vendorCountry: 'JP', enabled: ['CNY', 'JPY'] }, { code: 'JPY' }],
+    ['¥', { languages: ['en'], enabled: ['CNY', 'JPY'] }, { ambiguous: ['CNY', 'JPY'] }],
     // Unknown marks give nothing to suggest.
-    ['¥', plain, null],
+    ['¤', plain, null],
     ['', plain, null],
     ['Total', plain, null],
   ];

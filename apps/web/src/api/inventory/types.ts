@@ -420,7 +420,7 @@ export type Currency = {
 export type CurrenciesResponse = { currencies: Currency[] };
 /** PATCH /api/v1/admin/currencies/:code (D168). */
 export type UpdateCurrencyBody = { enabled: boolean };
-/** A refused switch-off: one of the five defaults, or a location uses it (409 `conflict`). */
+/** A refused switch-off: one of the defaults, or a location uses it (409 `conflict`). */
 export type CurrencyConflictDetails = { reason?: 'default' | 'in_use' };
 
 export type PurchaseLineBody = {

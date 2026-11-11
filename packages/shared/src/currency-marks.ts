@@ -34,6 +34,16 @@ const LATIN: Readonly<Record<string, string>> = Object.freeze({
   EGP: 'EGP',
   '€': 'EUR',
   EUR: 'EUR',
+  CNY: 'CNY',
+  RMB: 'CNY',
+  'CN¥': 'CNY',
+  'RMB¥': 'CNY',
+});
+
+/** Chinese marks, with spaces and punctuation folded. `元`/`块` only with a Chinese hint. */
+const CHINESE: Readonly<Record<string, string>> = Object.freeze({
+  人民币: 'CNY',
+  中国人民银行: 'CNY',
 });
 
 /** Arabic marks, with spaces, dots and alef variants folded. */
@@ -63,6 +73,24 @@ function britishHint(ctx: CurrencyContext): boolean {
   );
 }
 
+/** The vendor or text reads as Chinese Mainland (for ¥ → CNY). */
+function chineseHint(ctx: CurrencyContext): boolean {
+  if (ctx.languages.some((l) => /^zh\b/i.test(l))) return true;
+  const country = ctx.vendorCountry?.toUpperCase();
+  if (country === 'CN' || country === 'CHN') return true;
+  const text = ctx.addressText ?? '';
+  return /人民币|中国人民银行|\bChina\b|北京|上海|广州|深圳/.test(text);
+}
+
+/** The vendor or text reads as Japanese (for ¥ → JPY). */
+function japaneseHint(ctx: CurrencyContext): boolean {
+  if (ctx.languages.some((l) => /^ja\b/i.test(l))) return true;
+  const country = ctx.vendorCountry?.toUpperCase();
+  if (country === 'JP' || country === 'JPN') return true;
+  const text = ctx.addressText ?? '';
+  return /日本|東京|大阪|Tokyo|Osaka/.test(text);
+}
+
 /**
  * The code for a printed mark, the choices to offer when it is ambiguous, or null when the
  * mark means nothing here (the inbox then asks with no suggestion).
@@ -72,6 +100,19 @@ export function mapCurrencyMark(seen: string, ctx: CurrencyContext): CurrencyMat
   if (!latin) return null;
   if (latin === '$') return { ambiguous: ['USD', 'CAD'] };
   if (latin === '£') return britishHint(ctx) ? { code: 'GBP' } : { ambiguous: ['GBP', 'EGP'] };
+  // ¥ / ￥: Chinese yuan or Japanese yen. A Chinese hint picks CNY; a Japanese hint picks JPY
+  // (or nothing when that one is off); otherwise whichever of the two is enabled.
+  if (latin === '¥' || latin === '￥') {
+    const enabled: readonly string[] = ctx.enabled ?? SUPPORTED_DEFAULT;
+    if (chineseHint(ctx)) return enabled.includes('CNY') ? { code: 'CNY' } : null;
+    if (japaneseHint(ctx)) return enabled.includes('JPY') ? { code: 'JPY' } : null;
+    const cny = enabled.includes('CNY');
+    const jpy = enabled.includes('JPY');
+    if (cny && jpy) return { ambiguous: ['CNY', 'JPY'] };
+    if (cny) return { code: 'CNY' };
+    if (jpy) return { code: 'JPY' };
+    return null;
+  }
   const fromLatin = LATIN[latin];
   if (fromLatin) return { code: fromLatin };
 
@@ -79,6 +120,13 @@ export function mapCurrencyMark(seen: string, ctx: CurrencyContext): CurrencyMat
   if (arabic === 'دولار') return { ambiguous: ['USD', 'CAD'] };
   const fromArabic = ARABIC[arabic];
   if (fromArabic) return { code: fromArabic };
+
+  // Chinese words are matched on the original (not upper-cased Latin fold).
+  const chinese = seen.replace(/\s+/g, '');
+  const fromChinese = CHINESE[chinese];
+  if (fromChinese && (ctx.enabled ?? SUPPORTED_DEFAULT).includes(fromChinese))
+    return { code: fromChinese };
+  if (chineseHint(ctx) && (chinese === '元' || chinese === '块')) return { code: 'CNY' };
 
   if (/^[A-Z]{3}$/.test(latin)) {
     const enabled: readonly string[] = ctx.enabled ?? SUPPORTED_DEFAULT;

@@ -21,6 +21,7 @@ export function useColumnLabels(): Record<ColumnId, string> {
       tags: t`Tags`,
       purchasedOn: t`Bought`,
       price: t`Price`,
+      dailyPrice: t`Daily price`,
       warranty: t`Warranty ends`,
       condition: t`Condition`,
       colour: t`Colour`,

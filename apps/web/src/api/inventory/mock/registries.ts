@@ -44,7 +44,7 @@ import type {
 import { fold, matches, newId, now, paginate, roleIn, versionError } from './db';
 
 const KINDS: RegistryPathKind[] = ['brands', 'vendors', 'people', 'tags'];
-const DEFAULT_CURRENCIES = ['USD', 'CAD', 'GBP', 'EUR', 'EGP'];
+const DEFAULT_CURRENCIES = ['USD', 'CAD', 'GBP', 'EUR', 'EGP', 'CNY'];
 const KEY = /^[a-z][a-z0-9_]{0,39}$/;
 
 const nameOf = (item: RegistryItem[RegistryPathKind]) =>
@@ -873,7 +873,7 @@ export function registriesRoutes(state: MockState): MockRoute[] {
           'conflict',
           'That conflicts with the current state.',
           isDefault
-            ? 'USD, CAD, GBP, EUR and EGP always stay on.'
+            ? 'USD, CAD, GBP, EUR, EGP and CNY always stay on.'
             : 'A location uses this currency, so it stays on.',
           { reason: isDefault ? 'default' : 'in_use' },
         );

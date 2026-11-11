@@ -1,6 +1,6 @@
 /**
  * Instance admin → Currencies (D168): a switch per ISO currency, for everyone on this server.
- * The five defaults (USD, CAD, GBP, EUR, EGP) and any currency a location uses stay on, so their
+ * The defaults (USD, CAD, GBP, EUR, EGP, CNY) and any currency a location uses stay on, so their
  * switches are shown on and can't be turned off, with the reason. The list standard: search in
  * the URL, and a filter for what is on.
  */
@@ -53,7 +53,7 @@ function CurrenciesTab() {
     <div className="grid gap-3">
       <p className="m-0 text-ink-2">
         <Trans>
-          Currencies people can pick for locations and prices. The five defaults, and any currency a
+          Currencies people can pick for locations and prices. The defaults, and any currency a
           location uses, stay on.
         </Trans>
       </p>
@@ -102,7 +102,7 @@ function CurrencyRow({ currency: c }: { currency: Currency }) {
         title:
           isApiError(e) && e.status === 409
             ? e.details.reason === 'default'
-              ? t`${c.code} stays on: it's one of the five defaults.`
+              ? t`${c.code} stays on: it's one of the defaults.`
               : t`${c.code} stays on: a location uses it.`
             : errorText(e),
         tone: 'danger',
@@ -110,7 +110,7 @@ function CurrencyRow({ currency: c }: { currency: Currency }) {
     },
   });
   const reason = isDefault
-    ? t`Always on: one of the five defaults`
+    ? t`Always on: one of the defaults`
     : c.inUse
       ? t`On: a location uses it`
       : null;

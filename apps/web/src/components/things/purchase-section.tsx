@@ -9,10 +9,12 @@
  * purchase's receipts differ from a receipt under Paperwork.
  */
 import { Trans, useLingui } from '@lingui/react/macro';
+import { dailyAverage } from '@kept/shared';
 import { useState } from 'react';
 import type { AttachmentView } from '@/api/inventory/types';
 import { DocumentIcon, PencilIcon, PlusIcon, ShareIcon } from '@/components/icons';
 import { Section } from '@/components/page';
+import { dayIn, daysBetween } from '@/components/schedules/access';
 import { Button } from '@/components/ui/button';
 import { useFormat } from '@/lib/format';
 import { useOnline } from '@/lib/online';
@@ -23,7 +25,7 @@ import { UploadButton } from './upload';
 import { Bidi, KeyValues, KV, useMoney } from './values';
 
 export function PurchaseSection() {
-  const { thing, moduleOn, can, refresh } = useThingCtx();
+  const { thing, location, moduleOn, can, refresh } = useThingCtx();
   const { t } = useLingui();
   const fmt = useFormat();
   const money = useMoney();
@@ -56,6 +58,18 @@ export function PurchaseSection() {
       </Section>
     );
   const price = p.unitPrice && p.currency ? money(p.unitPrice, p.currency) : null;
+  // Price over whole days owned (at least 1): 100 bought 10 days ago → 10 per day.
+  const dailyPrice =
+    price && p.unitPrice && p.currency && p.purchasedOn
+      ? (() => {
+          const days = Math.max(1, daysBetween(p.purchasedOn, dayIn(location.timezone)));
+          try {
+            return money(dailyAverage(p.unitPrice, days), p.currency);
+          } catch {
+            return null;
+          }
+        })()
+      : null;
   // A receipt shows the price: it goes on the purchase only where the reader sees money.
   const canAddReceipt =
     !!p.purchaseId &&
@@ -115,6 +129,9 @@ export function PurchaseSection() {
               </span>
             )}
           </KV>
+        ) : null}
+        {moduleOn('money') && price && p.purchasedOn && !p.moneyHidden && !thing.moneyHidden ? (
+          <KV label={t`Daily price`}>{dailyPrice}</KV>
         ) : null}
       </KeyValues>
       {p.receipts.length || canAddReceipt ? (

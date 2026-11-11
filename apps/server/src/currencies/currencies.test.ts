@@ -72,10 +72,10 @@ afterAll(async () => {
 });
 
 describe('GET /api/v1/currencies', () => {
-  it('lists the enabled currencies for anyone signed in, the five defaults included', async () => {
+  it('lists the enabled currencies for anyone signed in, the defaults included', async () => {
     const currencies = await list(pat);
     const codes = currencies.map((c) => c.code);
-    expect(codes).toEqual(expect.arrayContaining(['CAD', 'EGP', 'EUR', 'GBP', 'USD']));
+    expect(codes).toEqual(expect.arrayContaining(['CAD', 'CNY', 'EGP', 'EUR', 'GBP', 'USD']));
     expect(currencies.every((c) => c.enabled)).toBe(true);
     expect(codes).not.toContain('TRY');
     const egp = currencies.find((c) => c.code === 'EGP');
@@ -142,14 +142,14 @@ describe('PATCH /api/v1/admin/currencies/:code', () => {
     expect(await currencyAudit()).toHaveLength(before);
   });
 
-  it('keeps the five defaults on: 409 with reason default', async () => {
-    for (const code of ['USD', 'CAD', 'GBP', 'EUR', 'EGP']) {
+  it('keeps the defaults on: 409 with reason default', async () => {
+    for (const code of ['USD', 'CAD', 'GBP', 'EUR', 'EGP', 'CNY']) {
       const res = await patch(admin, code, false);
       expect(res.statusCode, `${code} ${res.body}`).toBe(409);
       expect(res.json()).toMatchObject({ code: 'conflict', reason: 'default' });
     }
     expect((await list(pat)).map((c) => c.code)).toEqual(
-      expect.arrayContaining(['CAD', 'EGP', 'EUR', 'GBP', 'USD']),
+      expect.arrayContaining(['CAD', 'CNY', 'EGP', 'EUR', 'GBP', 'USD']),
     );
   });
 

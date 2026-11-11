@@ -15,8 +15,8 @@ import { scopedRead, scopedWrite } from '../http/write.js';
 //                                            default, deleted locations included: 0027). Anyone
 //                                            else asking for all gets the enabled list.
 // PATCH /api/v1/admin/currencies/:code {enabled}  → Currency (instance admins; D168). Turning off
-//       one of the five defaults (D136) or one a location uses is 409 `conflict` with
-//       `reason: 'default' | 'in_use'`; 0027's trigger refuses it again underneath.
+//       one of the defaults (D136 + CNY) or one a location uses is 409 `conflict` with
+//       `reason: 'default' | 'in_use'`; 0027's / 0176's trigger refuses it again underneath.
 //
 // Nothing here picks a currency for anyone: pickers offer the enabled list with no preselection
 // ("$" has no default, D189), and a purchase's amounts need an explicit currency (purchases/).
@@ -68,7 +68,7 @@ const refused = (reason: 'default' | 'in_use') =>
     'conflict',
     409,
     reason === 'default'
-      ? 'USD, CAD, GBP, EUR and EGP always stay on.'
+      ? 'USD, CAD, GBP, EUR, EGP and CNY always stay on.'
       : 'A location uses this currency, so it stays on.',
     { reason },
   );

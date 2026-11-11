@@ -8,8 +8,8 @@
 
 export type IsoCurrency = { readonly code: string; readonly minorUnits: number };
 
-/** The five currencies enabled on a new instance (D136). */
-export const SUPPORTED_DEFAULT = ['USD', 'CAD', 'GBP', 'EUR', 'EGP'] as const;
+/** The six currencies enabled on a new instance (D136 + CNY). */
+export const SUPPORTED_DEFAULT = ['USD', 'CAD', 'GBP', 'EUR', 'EGP', 'CNY'] as const;
 export type DefaultCurrency = (typeof SUPPORTED_DEFAULT)[number];
 
 export const ISO_CURRENCIES: readonly IsoCurrency[] = Object.freeze([

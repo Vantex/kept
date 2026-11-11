@@ -620,7 +620,7 @@ describe('admin → currencies', { timeout: 20_000 }, () => {
     const egp = screen.getByRole('switch', { name: 'EGP on' });
     expect(egp).toBeChecked();
     expect(egp).toBeDisabled();
-    expect(screen.getAllByText('Always on: one of the five defaults').length).toBe(5);
+    expect(screen.getAllByText('Always on: one of the defaults').length).toBe(6);
     await user.click(screen.getByRole('switch', { name: 'SAR on' }));
     await waitFor(() =>
       expect(mock.lastCall('PATCH', p.adminCurrency('SAR'))?.body).toEqual({ enabled: true }),

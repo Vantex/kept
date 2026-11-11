@@ -19,19 +19,21 @@ const snapshot = () =>
   });
 
 describe('currencies', () => {
-  it('holds every ISO currency, with only the five defaults enabled', async () => {
+  it('holds every ISO currency, with only the defaults enabled', async () => {
     const rows = await snapshot();
     expect(rows.map((r) => r.code)).toEqual(ISO_CURRENCIES.map((c) => c.code).sort());
     expect(rows.filter((r) => r.enabled).map((r) => [r.code, r.minor_units])).toEqual([
       ['CAD', 2],
+      ['CNY', 2],
       ['EGP', 2],
       ['EUR', 2],
       ['GBP', 2],
       ['USD', 2],
     ]);
     expect(rows.find((r) => r.code === 'JPY')).toMatchObject({ minor_units: 0, enabled: false });
-    // The five keep the symbols 0004 chose: never a bare £ for EGP.
+    // The defaults keep the symbols 0004 chose: never a bare £ for EGP.
     expect(rows.find((r) => r.code === 'EGP')?.symbol).toBe('E£');
+    expect(rows.find((r) => r.code === 'CNY')?.enabled).toBe(true);
   });
 
   it('changes nothing on a second run', async () => {

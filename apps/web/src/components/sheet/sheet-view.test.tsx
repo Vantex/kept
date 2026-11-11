@@ -107,6 +107,7 @@ describe('editing in place', () => {
       'Tags',
       'Bought',
       'Price',
+      'Daily price',
       'Warranty ends',
     ]);
 

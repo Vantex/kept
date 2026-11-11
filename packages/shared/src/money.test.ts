@@ -5,6 +5,7 @@ import {
   canonicalAmount,
   canonicalMoney,
   convert,
+  dailyAverage,
   type FxRate,
   formatAmount,
   formatMoney,
@@ -273,6 +274,13 @@ describe('formatMoney: five currencies × en/ar × western/eastern digits', () =
     expect(formatMoney('123456789012.3456', 'USD', { locale: 'en' })).toBe('$123,456,789,012.35');
   });
 
+  it('formats CNY with two minor units', () => {
+    expect(minorUnits('CNY')).toBe(2);
+    // English ICU writes the symbol as CN¥; zh uses ¥.
+    expect(formatMoney('1234.5', 'CNY', { locale: 'en' })).toBe('CN¥1,234.50');
+    expect(formatMoney('1234.5', 'CNY', { locale: 'zh' })).toContain('1,234.50');
+  });
+
   it('formats a negative total with the sign inside the isolate', () => {
     expect(formatMoney('-1200', 'USD', { locale: 'en' })).toBe('-$1,200.00');
     expect(formatMoney('-1200', 'USD', { locale: 'ar' })).toBe(`${LRI}-1,200.00${NBSP}US$${PDI}`);
@@ -280,6 +288,16 @@ describe('formatMoney: five currencies × en/ar × western/eastern digits', () =
 
   it('defaults to English with Western digits', () => {
     expect(formatMoney('1200', 'GBP')).toBe('£1,200.00');
+  });
+});
+
+describe('dailyAverage', () => {
+  it('spreads the price over the days owned, at least one day', () => {
+    expect(dailyAverage('100', 10)).toBe('10');
+    expect(dailyAverage('100', 1)).toBe('100');
+    expect(dailyAverage('100', 0)).toBe('100'); // clamped to a full day
+    expect(dailyAverage('10', 3)).toBe('3.3333');
+    expect(dailyAverage('0.5', 100)).toBe('0.005');
   });
 });
 

@@ -197,7 +197,7 @@ describe('admin currencies', () => {
     const sw = await screen.findByRole('switch', { name: 'SAR on' }, { timeout: 3000 });
     await user.click(sw);
     expect(
-      await screen.findByText("SAR stays on: it's one of the five defaults."),
+      await screen.findByText("SAR stays on: it's one of the defaults."),
     ).toBeInTheDocument();
   });
 });

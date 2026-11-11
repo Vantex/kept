@@ -20,6 +20,7 @@
  */
 import { plural } from '@lingui/core/macro';
 import { Trans, useLingui } from '@lingui/react/macro';
+import { dailyAverage } from '@kept/shared';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from '@tanstack/react-router';
 import {
@@ -53,6 +54,7 @@ import { useFilterRegistry } from '@/components/filters/registry';
 import { FilterStrip } from '@/components/filters/strip';
 import type { FilterDef } from '@/components/filters/types';
 import { useOfferUndo } from '@/components/history/undo';
+import { dayIn, daysBetween } from '@/components/schedules/access';
 import { AlertIcon, ArrowUpDownIcon, CheckIcon, ChevronDownIcon } from '@/components/icons';
 import { ErrorState, LoadingRows, useErrorText } from '@/components/page';
 import { invalidateBrowse, usePlaceTree } from '@/components/places/api';
@@ -182,6 +184,19 @@ export default function SheetView({ location }: { location: LocationDetail }) {
   const tagList = useQuery(registry('tags'));
   const conditions = useConditionLabels();
   const money = useMoney();
+  const today = dayIn(location.timezone);
+  const dailyPriceCell = (row: SheetRow): string => {
+    const p = row.purchase;
+    if (!p) return '';
+    if (p.moneyHidden) return t`Hidden in this location`;
+    if (!p.price || !p.currency || !p.purchasedOn) return '';
+    const days = Math.max(1, daysBetween(p.purchasedOn, today));
+    try {
+      return money(dailyAverage(p.price, days), p.currency);
+    } catch {
+      return '';
+    }
+  };
   const nameOfId = useCallback((items: unknown, id: string | null, key: 'name' | 'displayName') => {
     if (!id) return '';
     const found = ((items as { items?: Record<string, string>[] } | undefined)?.items ?? []).find(
@@ -257,6 +272,8 @@ export default function SheetView({ location }: { location: LocationDetail }) {
           : row.purchase?.price && row.purchase.currency
             ? money(row.purchase.price, row.purchase.currency)
             : '';
+      case 'dailyPrice':
+        return dailyPriceCell(row);
       case 'warranty':
         return row.warranty?.lifetime
           ? t`Lifetime`
@@ -697,7 +714,8 @@ export default function SheetView({ location }: { location: LocationDetail }) {
                 cellBase,
                 i === 0 && 'sticky z-10 bg-inherit font-medium',
                 i === 0 && (canEdit ? 'start-11' : 'start-0'),
-                (c.id === 'quantity' || c.id === 'price') && 'justify-end tabular-nums',
+                (c.id === 'quantity' || c.id === 'price' || c.id === 'dailyPrice') &&
+                  'justify-end tabular-nums',
                 isStaged && 'bg-[color-mix(in_oklab,var(--amber)_22%,var(--surface))]',
                 error && 'outline-2 -outline-offset-2 outline-danger outline-solid',
                 !editable(c) && c.id !== 'shortCode' && 'text-ink-2',
@@ -898,7 +916,8 @@ export default function SheetView({ location }: { location: LocationDetail }) {
                       'eyebrow flex h-10 shrink-0 items-center border-line border-e bg-sunken px-2 text-start font-[inherit]',
                       i === 0 && 'sticky z-10',
                       i === 0 && (canEdit ? 'start-11' : 'start-0'),
-                      (c.id === 'quantity' || c.id === 'price') && 'justify-end',
+                      (c.id === 'quantity' || c.id === 'price' || c.id === 'dailyPrice') &&
+                        'justify-end',
                     )}
                     style={{ width: c.width }}
                   >

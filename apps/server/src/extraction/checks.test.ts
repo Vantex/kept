@@ -17,7 +17,7 @@ import { mergePrompt } from './prompts/room.js';
 const ctx: CheckContext = {
   timezone: 'Africa/Cairo',
   languages: ['en', 'ar'],
-  enabledCurrencies: ['USD', 'CAD', 'GBP', 'EUR', 'EGP'],
+  enabledCurrencies: ['USD', 'CAD', 'GBP', 'EUR', 'EGP', 'CNY'],
   today: '2026-09-29',
 };
 const c = <T>(value: T, confidence = 0.9) => ({ value, confidence });
